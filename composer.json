@@ -1,0 +1,26 @@
+{
+    "name": "bnpl-partners/factoring004-prestashop",
+    "type": "prestashop-module",
+    "require": {
+        "php": ">=7.1",
+        "bnpl-partners/factoring004": "dev-legacy-56",
+        "wa72/simplelogger": "^1.1"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "BnplPartners\\Factoring004Prestashop\\": "src"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "optimize-autoloader": true,
+        "prepend-autoloader": false,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "platform": {
+            "php": "7.1.33"
+        }
+    }
+}

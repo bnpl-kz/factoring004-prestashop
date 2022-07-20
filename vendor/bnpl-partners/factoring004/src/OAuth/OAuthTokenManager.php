@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BnplPartners\Factoring004\OAuth;
 
 use BadMethodCallException;
@@ -34,19 +36,13 @@ class OAuthTokenManager implements OAuthTokenManagerInterface
 
     /**
      * @param \BnplPartners\Factoring004\Transport\TransportInterface|null $transport
-     * @param string $baseUri
-     * @param string $consumerKey
-     * @param string $consumerSecret
      */
     public function __construct(
-        $baseUri,
-        $consumerKey,
-        $consumerSecret,
+        string $baseUri,
+        string $consumerKey,
+        string $consumerSecret,
         $transport = null
     ) {
-        $baseUri = (string) $baseUri;
-        $consumerKey = (string) $consumerKey;
-        $consumerSecret = (string) $consumerSecret;
         if (!$baseUri) {
             throw new InvalidArgumentException('Base URI cannot be empty');
         }
@@ -59,16 +55,13 @@ class OAuthTokenManager implements OAuthTokenManagerInterface
             throw new InvalidArgumentException('Consumer secret cannot be empty');
         }
 
-        $this->transport = isset($transport) ? $transport : new GuzzleTransport();
+        $this->transport = $transport ?? new GuzzleTransport();
         $this->baseUri = $baseUri;
         $this->consumerKey = $consumerKey;
         $this->consumerSecret = $consumerSecret;
     }
 
-    /**
-     * @return \BnplPartners\Factoring004\OAuth\OAuthToken
-     */
-    public function getAccessToken()
+    public function getAccessToken(): OAuthToken
     {
         $this->transport->setBaseUri($this->baseUri);
         $this->transport->setAuthentication(new BasicAuth($this->consumerKey, $this->consumerSecret));

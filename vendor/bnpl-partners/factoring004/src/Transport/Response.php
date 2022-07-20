@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BnplPartners\Factoring004\Transport;
 
 use BnplPartners\Factoring004\Exception\DataSerializationException;
@@ -29,11 +31,9 @@ class Response implements ResponseInterface
     /**
      * @param array<string, string> $headers
      * @param array<array-key, T> $body
-     * @param int $statusCode
      */
-    public function __construct($statusCode, array $headers, array $body = [])
+    public function __construct(int $statusCode, array $headers, array $body = [])
     {
-        $statusCode = (int) $statusCode;
         $this->statusCode = $statusCode;
         $this->headers = $headers;
         $this->body = $body;
@@ -42,9 +42,8 @@ class Response implements ResponseInterface
     /**
      * @throws \BnplPartners\Factoring004\Exception\DataSerializationException
      * @param PsrResponse $response
-     * @return \BnplPartners\Factoring004\Transport\Response
      */
-    public static function createFromPsrResponse($response)
+    public static function createFromPsrResponse($response): Response
     {
         $content = (string) $response->getBody();
         $data = [];
@@ -62,26 +61,17 @@ class Response implements ResponseInterface
         }, $response->getHeaders()), $data);
     }
 
-    /**
-     * @return int
-     */
-    public function getStatusCode()
+    public function getStatusCode(): int
     {
         return $this->statusCode;
     }
 
-    /**
-     * @return mixed[]
-     */
-    public function getHeaders()
+    public function getHeaders(): array
     {
         return $this->headers;
     }
 
-    /**
-     * @return mixed[]
-     */
-    public function getBody()
+    public function getBody(): array
     {
         return $this->body;
     }

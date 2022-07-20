@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitbe2252d99514ef070c626c30540e0d4c
+class ComposerStaticInit36a7a15d335915fb3c9feb7056bffd81
 {
     public static $files = array (
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
@@ -28,6 +28,7 @@ class ComposerStaticInitbe2252d99514ef070c626c30540e0d4c
             'Psr\\SimpleCache\\' => 16,
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
+            'Psr\\Http\\Client\\' => 16,
         ),
         'M' => 
         array (
@@ -70,6 +71,11 @@ class ComposerStaticInitbe2252d99514ef070c626c30540e0d4c
         'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+        ),
+        'Psr\\Http\\Client\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/http-client/src',
         ),
         'MyCLabs\\Enum\\' => 
         array (
@@ -108,6 +114,11 @@ class ComposerStaticInitbe2252d99514ef070c626c30540e0d4c
     );
 
     public static $classMap = array (
+        'BnplPartners\\Factoring004Prestashop\\Controllers\\OrderController' => __DIR__ . '/../..' . '/src/Controllers/OrderController.php',
+        'BnplPartners\\Factoring004Prestashop\\Controllers\\OtpController' => __DIR__ . '/../..' . '/src/Controllers/OtpController.php',
+        'BnplPartners\\Factoring004Prestashop\\DeliveryHandler' => __DIR__ . '/../..' . '/src/DeliveryHandler.php',
+        'BnplPartners\\Factoring004Prestashop\\Logger' => __DIR__ . '/../..' . '/src/Logger.php',
+        'BnplPartners\\Factoring004Prestashop\\LoggerFactory' => __DIR__ . '/../..' . '/src/LoggerFactory.php',
         'BnplPartners\\Factoring004\\AbstractResource' => __DIR__ . '/..' . '/bnpl-partners/factoring004/src/AbstractResource.php',
         'BnplPartners\\Factoring004\\Api' => __DIR__ . '/..' . '/bnpl-partners/factoring004/src/Api.php',
         'BnplPartners\\Factoring004\\ArrayInterface' => __DIR__ . '/..' . '/bnpl-partners/factoring004/src/ArrayInterface.php',
@@ -253,12 +264,22 @@ class ComposerStaticInitbe2252d99514ef070c626c30540e0d4c
         'MyCLabs\\Enum\\Enum' => __DIR__ . '/..' . '/myclabs/php-enum/src/Enum.php',
         'MyCLabs\\Enum\\PHPUnit\\Comparator' => __DIR__ . '/..' . '/myclabs/php-enum/src/PHPUnit/Comparator.php',
         'Normalizer' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
+        'Psr\\Http\\Client\\ClientExceptionInterface' => __DIR__ . '/..' . '/psr/http-client/src/ClientExceptionInterface.php',
+        'Psr\\Http\\Client\\ClientInterface' => __DIR__ . '/..' . '/psr/http-client/src/ClientInterface.php',
+        'Psr\\Http\\Client\\NetworkExceptionInterface' => __DIR__ . '/..' . '/psr/http-client/src/NetworkExceptionInterface.php',
+        'Psr\\Http\\Client\\RequestExceptionInterface' => __DIR__ . '/..' . '/psr/http-client/src/RequestExceptionInterface.php',
         'Psr\\Http\\Message\\MessageInterface' => __DIR__ . '/..' . '/psr/http-message/src/MessageInterface.php',
+        'Psr\\Http\\Message\\RequestFactoryInterface' => __DIR__ . '/..' . '/psr/http-factory/src/RequestFactoryInterface.php',
         'Psr\\Http\\Message\\RequestInterface' => __DIR__ . '/..' . '/psr/http-message/src/RequestInterface.php',
+        'Psr\\Http\\Message\\ResponseFactoryInterface' => __DIR__ . '/..' . '/psr/http-factory/src/ResponseFactoryInterface.php',
         'Psr\\Http\\Message\\ResponseInterface' => __DIR__ . '/..' . '/psr/http-message/src/ResponseInterface.php',
+        'Psr\\Http\\Message\\ServerRequestFactoryInterface' => __DIR__ . '/..' . '/psr/http-factory/src/ServerRequestFactoryInterface.php',
         'Psr\\Http\\Message\\ServerRequestInterface' => __DIR__ . '/..' . '/psr/http-message/src/ServerRequestInterface.php',
+        'Psr\\Http\\Message\\StreamFactoryInterface' => __DIR__ . '/..' . '/psr/http-factory/src/StreamFactoryInterface.php',
         'Psr\\Http\\Message\\StreamInterface' => __DIR__ . '/..' . '/psr/http-message/src/StreamInterface.php',
+        'Psr\\Http\\Message\\UploadedFileFactoryInterface' => __DIR__ . '/..' . '/psr/http-factory/src/UploadedFileFactoryInterface.php',
         'Psr\\Http\\Message\\UploadedFileInterface' => __DIR__ . '/..' . '/psr/http-message/src/UploadedFileInterface.php',
+        'Psr\\Http\\Message\\UriFactoryInterface' => __DIR__ . '/..' . '/psr/http-factory/src/UriFactoryInterface.php',
         'Psr\\Http\\Message\\UriInterface' => __DIR__ . '/..' . '/psr/http-message/src/UriInterface.php',
         'Psr\\Log\\AbstractLogger' => __DIR__ . '/..' . '/psr/log/Psr/Log/AbstractLogger.php',
         'Psr\\Log\\InvalidArgumentException' => __DIR__ . '/..' . '/psr/log/Psr/Log/InvalidArgumentException.php',
@@ -290,10 +311,10 @@ class ComposerStaticInitbe2252d99514ef070c626c30540e0d4c
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitbe2252d99514ef070c626c30540e0d4c::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitbe2252d99514ef070c626c30540e0d4c::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitbe2252d99514ef070c626c30540e0d4c::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitbe2252d99514ef070c626c30540e0d4c::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit36a7a15d335915fb3c9feb7056bffd81::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit36a7a15d335915fb3c9feb7056bffd81::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit36a7a15d335915fb3c9feb7056bffd81::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit36a7a15d335915fb3c9feb7056bffd81::$classMap;
 
         }, null, ClassLoader::class);
     }

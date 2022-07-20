@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BnplPartners\Factoring004\ChangeStatus;
 
 use BnplPartners\Factoring004\ArrayInterface;
@@ -27,18 +29,8 @@ class ErrorResponse implements JsonSerializable, ArrayInterface
      */
     private $merchantOrderId;
 
-    /**
-     * @param string $code
-     * @param string $error
-     * @param string $message
-     * @param string $merchantOrderId
-     */
-    public function __construct($code, $error, $message, $merchantOrderId = '')
+    public function __construct(string $code, string $error, string $message, string $merchantOrderId = '')
     {
-        $code = (string) $code;
-        $error = (string) $error;
-        $message = (string) $message;
-        $merchantOrderId = (string) $merchantOrderId;
         $this->code = $code;
         $this->error = $error;
         $this->message = $message;
@@ -48,50 +40,36 @@ class ErrorResponse implements JsonSerializable, ArrayInterface
     /**
      * @param array<string, string> $response
      * @psalm-param array{code: string, error: string, message: string, merchantOrderId?: string} $response
-     * @return \BnplPartners\Factoring004\ChangeStatus\ErrorResponse
      */
-    public static function createFromArray($response)
+    public static function createFromArray($response): ErrorResponse
     {
-        return new self($response['code'], $response['error'], $response['message'], isset($response['merchantOrderId']) ? $response['merchantOrderId'] : '');
+        return new self($response['code'], $response['error'], $response['message'], $response['merchantOrderId'] ?? '');
     }
 
-    /**
-     * @return string
-     */
-    public function getCode()
+    public function getCode(): string
     {
         return $this->code;
     }
 
-    /**
-     * @return string
-     */
-    public function getError()
+    public function getError(): string
     {
         return $this->error;
     }
 
-    /**
-     * @return string
-     */
-    public function getMessage()
+    public function getMessage(): string
     {
         return $this->message;
     }
 
-    /**
-     * @return string
-     */
-    public function getMerchantOrderId()
+    public function getMerchantOrderId(): string
     {
         return $this->merchantOrderId;
     }
 
     /**
      * @psalm-return array{code: string, error: string, message: string, merchantOrderId: string}
-     * @return mixed[]
      */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'code' => $this->getCode(),
@@ -102,9 +80,9 @@ class ErrorResponse implements JsonSerializable, ArrayInterface
     }
 
     /**
-     * @return mixed[]
+     * @return array<string, string>
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }

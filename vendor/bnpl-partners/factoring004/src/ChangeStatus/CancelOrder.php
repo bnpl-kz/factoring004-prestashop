@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BnplPartners\Factoring004\ChangeStatus;
 
 /**
@@ -7,10 +9,8 @@ namespace BnplPartners\Factoring004\ChangeStatus;
  */
 class CancelOrder extends AbstractMerchantOrder
 {
-    /**
-     * @param string $orderId
-     */
-    public function __construct($orderId, CancelStatus $status)
+
+    public function __construct(string $orderId, CancelStatus $status)
     {
         parent::__construct($orderId, $status);
     }
@@ -18,10 +18,8 @@ class CancelOrder extends AbstractMerchantOrder
     /**
      * @param array<string, mixed> $order
      * @psalm-param array{orderId: string, status: string} $order
-     *
-     * @return \BnplPartners\Factoring004\ChangeStatus\CancelOrder
      */
-    public static function createFromArray(array $order)
+    public static function createFromArray(array $order): CancelOrder
     {
         return new self($order['orderId'], new CancelStatus($order['status']));
     }

@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BnplPartners\Factoring004;
 
 interface ArrayInterface
 {
     /**
-     * @return mixed[]
+     * @return array<string, mixed>
      */
-    public function toArray();
+    public function toArray(): array;
 }

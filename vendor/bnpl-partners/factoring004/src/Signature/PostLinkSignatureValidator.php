@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BnplPartners\Factoring004\Signature;
 
 use BnplPartners\Factoring004\Exception\InvalidSignatureException;
@@ -14,21 +16,15 @@ class PostLinkSignatureValidator
      */
     private $calculator;
 
-    /**
-     * @param string $secretKey
-     */
-    public function __construct($secretKey, PostLinkSignatureCalculator $calculator = null)
+    public function __construct(string $secretKey, PostLinkSignatureCalculator $calculator = null)
     {
-        $this->calculator = $calculator ?: PostLinkSignatureCalculator::create($secretKey);
+        $this->calculator = $calculator ?? PostLinkSignatureCalculator::create($secretKey);
     }
 
-    /**
-     * @param string $secretKey
-     *
-     * @return \BnplPartners\Factoring004\Signature\PostLinkSignatureValidator
-     */
-    public static function create($secretKey, PostLinkSignatureCalculator $calculator = null)
-    {
+    public static function create(
+        string $secretKey,
+        PostLinkSignatureCalculator $calculator = null
+    ): PostLinkSignatureValidator {
         return new self($secretKey, $calculator);
     }
 
@@ -37,13 +33,12 @@ class PostLinkSignatureValidator
      *
      * @param array<string, mixed> $data
      * @psalm-param array{status: string, billNumber: string, preappId: string, scoring?: int} $data
-     * @param string $knownHash
      *
      * @return void
      *
      * @throws \BnplPartners\Factoring004\Exception\InvalidSignatureException
      */
-    public function validate(array $data, $knownHash)
+    public function validate(array $data, string $knownHash)
     {
         $hash = $this->calculator->calculate($data);
 
@@ -57,13 +52,12 @@ class PostLinkSignatureValidator
     /**
      * @param array<string, mixed> $data
      * @psalm-param array{status: string, billNumber: string, preappId: string, signature?: string, scoring?: int} $data
-     * @param string $signatureKeyName
      *
      * @return void
      *
      * @throws \BnplPartners\Factoring004\Exception\InvalidSignatureException
      */
-    public function validateData(array $data, $signatureKeyName = 'signature')
+    public function validateData(array $data, string $signatureKeyName = 'signature')
     {
         if (empty($data[$signatureKeyName])) {
             throw new InvalidSignatureException('Known signature not found');

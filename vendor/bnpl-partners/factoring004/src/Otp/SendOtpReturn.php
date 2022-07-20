@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BnplPartners\Factoring004\Otp;
 
 use BnplPartners\Factoring004\ArrayInterface;
@@ -22,16 +24,8 @@ class SendOtpReturn implements ArrayInterface
      */
     private $merchantOrderId;
 
-    /**
-     * @param int $amountAr
-     * @param string $merchantId
-     * @param string $merchantOrderId
-     */
-    public function __construct($amountAr, $merchantId, $merchantOrderId)
+    public function __construct(int $amountAr, string $merchantId, string $merchantOrderId)
     {
-        $amountAr = (int) $amountAr;
-        $merchantId = (string) $merchantId;
-        $merchantOrderId = (string) $merchantOrderId;
         $this->amountAr = $amountAr;
         $this->merchantId = $merchantId;
         $this->merchantOrderId = $merchantOrderId;
@@ -40,42 +34,31 @@ class SendOtpReturn implements ArrayInterface
     /**
      * @param array<string, mixed> $sendOtpReturn
      * @psalm-param array{amountAR: int, merchantId: string, merchantOrderId: string} $sendOtpReturn
-     * @return \BnplPartners\Factoring004\Otp\SendOtpReturn
      */
-    public static function createFromArray($sendOtpReturn)
+    public static function createFromArray($sendOtpReturn): SendOtpReturn
     {
         return new self($sendOtpReturn['amountAR'], $sendOtpReturn['merchantId'], $sendOtpReturn['merchantOrderId']);
     }
 
-    /**
-     * @return int
-     */
-    public function getAmountAr()
+    public function getAmountAr(): int
     {
         return $this->amountAr;
     }
 
-    /**
-     * @return string
-     */
-    public function getMerchantId()
+    public function getMerchantId(): string
     {
         return $this->merchantId;
     }
 
-    /**
-     * @return string
-     */
-    public function getMerchantOrderId()
+    public function getMerchantOrderId(): string
     {
         return $this->merchantOrderId;
     }
 
     /**
      * @psalm-return array{amountAR: int, merchantId: string, merchantOrderId: string}
-     * @return mixed[]
      */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'amountAR' => $this->getAmountAr(),

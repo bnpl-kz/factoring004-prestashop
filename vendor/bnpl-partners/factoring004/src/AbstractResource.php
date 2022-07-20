@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BnplPartners\Factoring004;
 
 use BnplPartners\Factoring004\Auth\AuthenticationInterface;
@@ -31,21 +33,19 @@ abstract class AbstractResource
 
     /**
      * @param \BnplPartners\Factoring004\Auth\AuthenticationInterface|null $authentication
-     * @param string $baseUri
      */
     public function __construct(
         TransportInterface $transport,
-        $baseUri,
+        string $baseUri,
         $authentication = null
     ) {
-        $baseUri = (string) $baseUri;
         if (!filter_var($baseUri, FILTER_VALIDATE_URL)) {
             throw new InvalidArgumentException('Base URI cannot be empty');
         }
 
         $this->transport = $transport;
         $this->baseUri = $baseUri;
-        $this->authentication = isset($authentication) ? $authentication : new NoAuth();
+        $this->authentication = $authentication ?? new NoAuth();
     }
 
     /**
@@ -59,7 +59,7 @@ abstract class AbstractResource
      * @throws \BnplPartners\Factoring004\Exception\NetworkException
      * @throws \BnplPartners\Factoring004\Exception\TransportException
      */
-    protected function postRequest($path, $data = [], $headers = [])
+    protected function postRequest($path, $data = [], $headers = []): ResponseInterface
     {
         return $this->request('POST', $path, $data, $headers);
     }
@@ -76,7 +76,7 @@ abstract class AbstractResource
      * @throws \BnplPartners\Factoring004\Exception\NetworkException
      * @throws \BnplPartners\Factoring004\Exception\TransportException
      */
-    protected function request($method, $path, $data = [], $headers = [])
+    protected function request($method, $path, $data = [], $headers = []): ResponseInterface
     {
         $this->transport->setBaseUri($this->baseUri);
         $this->transport->setAuthentication($this->authentication);

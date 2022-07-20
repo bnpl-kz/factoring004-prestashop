@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BnplPartners\Factoring004\ChangeStatus;
 
 use BnplPartners\Factoring004\ArrayInterface;
@@ -23,16 +25,8 @@ class SuccessResponse implements JsonSerializable, ArrayInterface
      */
     private $merchantOrderId;
 
-    /**
-     * @param string $error
-     * @param string $msg
-     * @param string $merchantOrderId
-     */
-    public function __construct($error, $msg, $merchantOrderId = '')
+    public function __construct(string $error, string $msg, string $merchantOrderId = '')
     {
-        $error = (string) $error;
-        $msg = (string) $msg;
-        $merchantOrderId = (string) $merchantOrderId;
         $this->error = $error;
         $this->msg = $msg;
         $this->merchantOrderId = $merchantOrderId;
@@ -44,40 +38,30 @@ class SuccessResponse implements JsonSerializable, ArrayInterface
      *
      * @return \BnplPartners\Factoring004\ChangeStatus\SuccessResponse
      */
-    public static function createFromArray($response)
+    public static function createFromArray($response): SuccessResponse
     {
-        return new self($response['error'], $response['msg'], isset($response['merchantOrderId']) ? $response['merchantOrderId'] : '');
+        return new self($response['error'], $response['msg'], $response['merchantOrderId'] ?? '');
     }
 
-    /**
-     * @return string
-     */
-    public function getError()
+    public function getError(): string
     {
         return $this->error;
     }
 
-    /**
-     * @return string
-     */
-    public function getMsg()
+    public function getMsg(): string
     {
         return $this->msg;
     }
 
-    /**
-     * @return string
-     */
-    public function getMerchantOrderId()
+    public function getMerchantOrderId(): string
     {
         return $this->merchantOrderId;
     }
 
     /**
      * @psalm-return array{error: string, msg: string, merchantOrderId: string}
-     * @return mixed[]
      */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'error' => $this->getError(),
@@ -87,9 +71,9 @@ class SuccessResponse implements JsonSerializable, ArrayInterface
     }
 
     /**
-     * @return mixed[]
+     * @return array<string, string>
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }

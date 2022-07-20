@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BnplPartners\Factoring004\Response;
 
 use BnplPartners\Factoring004\ArrayInterface;
@@ -38,18 +40,14 @@ class ErrorResponse implements JsonSerializable, ArrayInterface
      * @param string|null $description
      * @param string|null $type
      * @param string|null $error
-     * @param string $code
-     * @param string $message
      */
     public function __construct(
-        $code,
-        $message,
+        string $code,
+        string $message,
         $description = null,
         $type = null,
         $error = null
     ) {
-        $code = (string) $code;
-        $message = (string) $message;
         $this->code = $code;
         $this->message = $message;
         $this->description = $description;
@@ -60,31 +58,24 @@ class ErrorResponse implements JsonSerializable, ArrayInterface
     /**
      * @param array<string, mixed> $response
      * @psalm-param array{code: string|int, message: string, description?: string, type?: string, error?: string} $response
-     * @return \BnplPartners\Factoring004\Response\ErrorResponse
      */
-    public static function createFromArray($response)
+    public static function createFromArray($response): ErrorResponse
     {
         return new self(
             (string) $response['code'],
             $response['message'],
-            isset($response['description']) ? $response['description'] : null,
-            isset($response['type']) ? $response['type'] : null,
-            isset($response['error']) ? $response['error'] : null
+            $response['description'] ?? null,
+            $response['type'] ?? null,
+            $response['error'] ?? null
         );
     }
 
-    /**
-     * @return string
-     */
-    public function getCode()
+    public function getCode(): string
     {
         return $this->code;
     }
 
-    /**
-     * @return string
-     */
-    public function getMessage()
+    public function getMessage(): string
     {
         return $this->message;
     }
@@ -114,10 +105,10 @@ class ErrorResponse implements JsonSerializable, ArrayInterface
     }
 
     /**
-     * @return mixed[]
+     * @return array<string, mixed>
      * @psalm-return array{code: string, message: string, description?: string, type?: string, error?: string}
      */
-    public function toArray()
+    public function toArray(): array
     {
         $data = [
             'code' => $this->getCode(),
@@ -140,9 +131,9 @@ class ErrorResponse implements JsonSerializable, ArrayInterface
     }
 
     /**
-     * @return mixed[]
+     * @return array<string, mixed>
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }

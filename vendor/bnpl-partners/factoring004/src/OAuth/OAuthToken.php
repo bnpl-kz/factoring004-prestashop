@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BnplPartners\Factoring004\OAuth;
 
 use BnplPartners\Factoring004\ArrayInterface;
@@ -27,18 +29,8 @@ class OAuthToken implements JsonSerializable, ArrayInterface
      */
     private $tokenType;
 
-    /**
-     * @param string $accessToken
-     * @param string $scope
-     * @param string $tokenType
-     * @param int $expiresIn
-     */
-    public function __construct($accessToken, $scope, $tokenType, $expiresIn)
+    public function __construct(string $accessToken, string $scope, string $tokenType, int $expiresIn)
     {
-        $accessToken = (string) $accessToken;
-        $scope = (string) $scope;
-        $tokenType = (string) $tokenType;
-        $expiresIn = (int) $expiresIn;
         $this->accessToken = $accessToken;
         $this->scope = $scope;
         $this->expiresIn = $expiresIn;
@@ -48,25 +40,18 @@ class OAuthToken implements JsonSerializable, ArrayInterface
     /**
      * @param array<string, mixed> $token
      * @psalm-param array{access_token: string, scope: string, expires_in: int, token_type: string} $token
-     * @return \BnplPartners\Factoring004\OAuth\OAuthToken
      */
-    public static function createFromArray($token)
+    public static function createFromArray($token): OAuthToken
     {
         return new self($token['access_token'], $token['scope'], $token['token_type'], $token['expires_in']);
     }
 
-    /**
-     * @return string
-     */
-    public function getAccessToken()
+    public function getAccessToken(): string
     {
         return $this->accessToken;
     }
 
-    /**
-     * @return string
-     */
-    public function getScope()
+    public function getScope(): string
     {
         return $this->scope;
     }
@@ -74,24 +59,20 @@ class OAuthToken implements JsonSerializable, ArrayInterface
     /**
      * @return int In seconds.
      */
-    public function getExpiresIn()
+    public function getExpiresIn(): int
     {
         return $this->expiresIn;
     }
 
-    /**
-     * @return string
-     */
-    public function getTokenType()
+    public function getTokenType(): string
     {
         return $this->tokenType;
     }
 
     /**
      * @psalm-return array{access_token: string, scope: string, expires_in: int, token_type: string}
-     * @return mixed[]
      */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'access_token' => $this->getAccessToken(),
@@ -102,9 +83,9 @@ class OAuthToken implements JsonSerializable, ArrayInterface
     }
 
     /**
-     * @return mixed[]
+     * @return array<string, mixed>
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }

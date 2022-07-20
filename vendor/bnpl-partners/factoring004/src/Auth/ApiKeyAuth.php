@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BnplPartners\Factoring004\Auth;
 
 use Psr\Http\Message\RequestInterface;
@@ -13,20 +15,15 @@ class ApiKeyAuth implements AuthenticationInterface
      */
     private $apiKey;
 
-    /**
-     * @param string $apiKey
-     */
-    public function __construct($apiKey)
+    public function __construct(string $apiKey)
     {
-        $apiKey = (string) $apiKey;
         $this->apiKey = $apiKey;
     }
 
     /**
      * @param \Psr\Http\Message\RequestInterface $request
-     * @return \Psr\Http\Message\RequestInterface
      */
-    public function apply($request)
+    public function apply($request): RequestInterface
     {
         return $request->withHeader(static::HEADER_NAME, $this->apiKey);
     }

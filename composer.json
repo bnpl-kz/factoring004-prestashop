@@ -3,7 +3,7 @@
     "type": "prestashop-module",
     "require": {
         "php": ">=7.1",
-        "bnpl-partners/factoring004": "dev-legacy-56",
+        "bnpl-partners/factoring004": "dev-legacy",
         "wa72/simplelogger": "^1.1"
     },
     "license": "MIT",

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BnplPartners\Factoring004\ChangeStatus;
 
 use BnplPartners\Factoring004\ArrayInterface;
@@ -24,17 +26,13 @@ abstract class AbstractMerchantOrder implements ArrayInterface
      * @param string $orderId
      * @param T $status
      */
-    public function __construct($orderId, Enum $status)
+    public function __construct(string $orderId, Enum $status)
     {
-        $orderId = (string) $orderId;
         $this->orderId = $orderId;
         $this->status = $status;
     }
 
-    /**
-     * @return string
-     */
-    public function getOrderId()
+    public function getOrderId(): string
     {
         return $this->orderId;
     }
@@ -50,9 +48,8 @@ abstract class AbstractMerchantOrder implements ArrayInterface
 
     /**
      * @psalm-return array{orderId: string, status: string}
-     * @return mixed[]
      */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'orderId' => $this->getOrderId(),

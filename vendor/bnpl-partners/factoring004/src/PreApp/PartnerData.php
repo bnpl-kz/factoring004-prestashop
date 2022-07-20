@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BnplPartners\Factoring004\PreApp;
 
 use BnplPartners\Factoring004\ArrayInterface;
@@ -22,6 +24,7 @@ class PartnerData implements ArrayInterface
      * @var string
      */
     private $pointCode;
+
     /**
      * @var string|null
      */
@@ -32,14 +35,16 @@ class PartnerData implements ArrayInterface
     private $partnerWebsite;
 
     /**
-     * @param string $partnerName
-     * @param string $partnerCode
-     * @param string $pointCode
      * @param string|null $partnerEmail
      * @param string|null $partnerWebsite
      */
-    public function __construct($partnerName, $partnerCode, $pointCode, $partnerEmail = null, $partnerWebsite = null)
-    {
+    public function __construct(
+        string $partnerName,
+        string $partnerCode,
+        string $pointCode,
+        $partnerEmail = null,
+        $partnerWebsite = null
+    ) {
         $this->partnerName = $partnerName;
         $this->partnerCode = $partnerCode;
         $this->pointCode = $pointCode;
@@ -58,9 +63,8 @@ class PartnerData implements ArrayInterface
       } $partnerData
      *
      * @throws \InvalidArgumentException
-     * @return \BnplPartners\Factoring004\PreApp\PartnerData
      */
-    public static function createFromArray($partnerData)
+    public static function createFromArray($partnerData): PartnerData
     {
         if (empty($partnerData['partnerName'])) {
             throw new InvalidArgumentException("Key 'partnerName' is required");
@@ -78,31 +82,22 @@ class PartnerData implements ArrayInterface
             $partnerData['partnerName'],
             $partnerData['partnerCode'],
             $partnerData['pointCode'],
-            isset($partnerData['partnerEmail']) ? $partnerData['partnerEmail'] : null,
-            isset($partnerData['partnerWebsite']) ? $partnerData['partnerWebsite'] : null
+            $partnerData['partnerEmail'] ?? null,
+            $partnerData['partnerWebsite'] ?? null
         );
     }
 
-    /**
-     * @return string
-     */
-    public function getPartnerName()
+    public function getPartnerName(): string
     {
         return $this->partnerName;
     }
 
-    /**
-     * @return string
-     */
-    public function getPartnerCode()
+    public function getPartnerCode(): string
     {
         return $this->partnerCode;
     }
 
-    /**
-     * @return string
-     */
-    public function getPointCode()
+    public function getPointCode(): string
     {
         return $this->pointCode;
     }
@@ -133,7 +128,7 @@ class PartnerData implements ArrayInterface
          partnerWebsite?: string,
        }
      */
-    public function toArray()
+    public function toArray(): array
     {
         $data = [
             'partnerName' => $this->getPartnerName(),

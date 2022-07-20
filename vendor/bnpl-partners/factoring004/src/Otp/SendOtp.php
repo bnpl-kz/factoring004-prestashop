@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BnplPartners\Factoring004\Otp;
 
 use BnplPartners\Factoring004\ArrayInterface;
@@ -22,12 +24,7 @@ class SendOtp implements ArrayInterface
      */
     private $amount;
 
-    /**
-     * @param string $merchantId
-     * @param string $merchantOrderId
-     * @param int $amount
-     */
-    public function __construct($merchantId, $merchantOrderId, $amount)
+    public function __construct(string $merchantId, string $merchantOrderId, int $amount)
     {
         $this->merchantId = $merchantId;
         $this->merchantOrderId = $merchantOrderId;
@@ -38,42 +35,31 @@ class SendOtp implements ArrayInterface
      * @param array<string, mixed> $sendOtp
      *
      * @psalm-param array{merchantId: string, merchantOrderId: string, amount: int} $sendOtp
-     * @return \BnplPartners\Factoring004\Otp\SendOtp
      */
-    public static function createFromArray($sendOtp)
+    public static function createFromArray($sendOtp): SendOtp
     {
         return new self($sendOtp['merchantId'], $sendOtp['merchantOrderId'], $sendOtp['amount']);
     }
 
-    /**
-     * @return string
-     */
-    public function getMerchantId()
+    public function getMerchantId(): string
     {
         return $this->merchantId;
     }
 
-    /**
-     * @return string
-     */
-    public function getMerchantOrderId()
+    public function getMerchantOrderId(): string
     {
         return $this->merchantOrderId;
     }
 
-    /**
-     * @return int
-     */
-    public function getAmount()
+    public function getAmount(): int
     {
         return $this->amount;
     }
 
     /**
      * @psalm-return array{merchantId: string, merchantOrderId: string, amount: int}
-     * @return array<string, mixed>
      */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'merchantId' => $this->getMerchantId(),

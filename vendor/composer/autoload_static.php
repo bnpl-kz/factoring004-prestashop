@@ -131,6 +131,11 @@ class ComposerStaticInit36a7a15d335915fb3c9feb7056bffd81
 
     public static $classMap = array (
         'BnplPartners\\Factoring004Prestashop\\Controller\\FileHandlerController' => __DIR__ . '/../..' . '/src/Controller/FileHandlerController.php',
+        'BnplPartners\\Factoring004Prestashop\\Controller\\OrderController' => __DIR__ . '/../..' . '/src/Controller/OrderController.php',
+        'BnplPartners\\Factoring004Prestashop\\Controller\\OtpController' => __DIR__ . '/../..' . '/src/Controller/OtpController.php',
+        'BnplPartners\\Factoring004Prestashop\\DeliveryHandler' => __DIR__ . '/../..' . '/src/DeliveryHandler.php',
+        'BnplPartners\\Factoring004Prestashop\\Otp\\DeliveryOtpChecker' => __DIR__ . '/../..' . '/src/Otp/DeliveryOtpChecker.php',
+        'BnplPartners\\Factoring004Prestashop\\Otp\\OtpCheckerInterface' => __DIR__ . '/../..' . '/src/Otp/OtpCheckerInterface.php',
         'BnplPartners\\Factoring004\\AbstractResource' => __DIR__ . '/..' . '/bnpl-partners/factoring004/src/AbstractResource.php',
         'BnplPartners\\Factoring004\\Api' => __DIR__ . '/..' . '/bnpl-partners/factoring004/src/Api.php',
         'BnplPartners\\Factoring004\\ArrayInterface' => __DIR__ . '/..' . '/bnpl-partners/factoring004/src/ArrayInterface.php',

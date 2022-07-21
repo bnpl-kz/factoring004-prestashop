@@ -32,6 +32,7 @@ class OrderController extends \PrestaShopBundle\Controller\Admin\Sell\Order\Orde
         )['new_order_status_id'];
 
         return $this->updateOrderStatusConditionally(
+            $request,
             $orderId,
             $orderStatusId,
             function () use ($request, $orderId) {
@@ -48,6 +49,7 @@ class OrderController extends \PrestaShopBundle\Controller\Admin\Sell\Order\Orde
     public function updateStatusFromListAction(int $orderId, Request $request): RedirectResponse
     {
         return $this->updateOrderStatusConditionally(
+            $request,
             $orderId,
             $request->request->get('value'),
             function () use ($request, $orderId) {
@@ -64,11 +66,19 @@ class OrderController extends \PrestaShopBundle\Controller\Admin\Sell\Order\Orde
      * @param callable(): RedirectResponse $previous
      */
     private function updateOrderStatusConditionally(
+        Request $request,
         int $orderId,
         string $orderStatusId,
         callable $updater,
         callable $previous
     ): RedirectResponse {
+        if ($request->getSession()->has('_factoring004_delivery_otp_checked')) {
+            $request->getSession()->remove('_factoring004_delivery_otp_checked');
+            $request->getSession()->remove('_factoring004_delivery_forward_data');
+
+            return $updater();
+        }
+
         try {
             $shouldConfirmOtp = $this->deliveryHandler->handle($orderId, $orderStatusId);
         } catch (PackageException $e) {
@@ -87,6 +97,11 @@ class OrderController extends \PrestaShopBundle\Controller\Admin\Sell\Order\Orde
         }
 
         if ($shouldConfirmOtp) {
+            $request->getSession()->set('_factoring004_delivery_forward_data', [
+                'data' => $request->request->all(),
+                'controller' => $request->attributes->get('_controller'),
+            ]);
+
             return $this->redirectToRoute('admin_factoring004_otp_index', [
                 'type' => 'delivery',
                 'order_id' => $orderId,

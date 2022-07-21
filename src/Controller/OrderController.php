@@ -30,6 +30,44 @@ class OrderController extends \PrestaShopBundle\Controller\Admin\Sell\Order\Orde
             $request->request->get('update_order_status', [])
         )['new_order_status_id'];
 
+        return $this->updateOrderStatusConditionally(
+            $orderId,
+            $orderStatusId,
+            function () use ($request, $orderId) {
+                return parent::updateStatusAction($orderId, $request);
+            },
+            function () use ($orderId) {
+                return $this->redirectToRoute('admin_orders_view', [
+                    'orderId' => $orderId,
+                ]);
+            }
+        );
+    }
+
+    public function updateStatusFromListAction(int $orderId, Request $request): RedirectResponse
+    {
+        return $this->updateOrderStatusConditionally(
+            $orderId,
+            $request->request->get('value'),
+            function () use ($request, $orderId) {
+                return parent::updateStatusFromListAction($orderId, $request);
+            },
+            function () {
+                return $this->redirectToRoute('admin_orders_index');
+            }
+        );
+    }
+
+    /**
+     * @param callable(): RedirectResponse $updater
+     * @param callable(): RedirectResponse $previous
+     */
+    private function updateOrderStatusConditionally(
+        int $orderId,
+        string $orderStatusId,
+        callable $updater,
+        callable $previous
+    ): RedirectResponse {
         try {
             $shouldConfirmOtp = $this->deliveryHandler->handle($orderId, $orderStatusId);
         } catch (PackageException $e) {
@@ -37,34 +75,16 @@ class OrderController extends \PrestaShopBundle\Controller\Admin\Sell\Order\Orde
                 PackageException::class => _PS_MODE_DEV_ ? $e->getMessage() : 'An error occurred',
             ]));
 
-            return $this->redirectToRoute('admin_orders_view', [
-                'orderId' => $orderId,
+            return $previous();
+        }
+
+        if ($shouldConfirmOtp) {
+            return $this->redirectToRoute('admin_factoring004_otp_index', [
+                'type' => 'delivery',
+                'order_id' => $orderId,
             ]);
         }
 
-        if ($shouldConfirmOtp) {
-            return $this->redirectToRoute('admin_factoring004_otp_index');
-        }
-
-        return parent::updateStatusAction($orderId, $request);
-    }
-
-    public function updateStatusFromListAction(int $orderId, Request $request): RedirectResponse
-    {
-        try {
-            $shouldConfirmOtp = $this->deliveryHandler->handle($orderId, $request->request->get('value'));
-        } catch (PackageException $e) {
-            $this->addFlash('error', $this->getErrorMessageForException($e, [
-                PackageException::class => _PS_MODE_DEV_ ? $e->getMessage() : 'An error occurred',
-            ]));
-
-            return $this->redirectToRoute('admin_orders_index');
-        }
-
-        if ($shouldConfirmOtp) {
-            return $this->redirectToRoute('admin_factoring004_otp_index');
-        }
-
-        return parent::updateStatusFromListAction($orderId, $request);
+        return $updater();
     }
 }

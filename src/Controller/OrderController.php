@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BnplPartners\Factoring004Prestashop\Controller;
 
+use BnplPartners\Factoring004\Exception\ErrorResponseException;
 use BnplPartners\Factoring004\Exception\PackageException;
 use BnplPartners\Factoring004Prestashop\DeliveryHandler;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -71,7 +72,14 @@ class OrderController extends \PrestaShopBundle\Controller\Admin\Sell\Order\Orde
         try {
             $shouldConfirmOtp = $this->deliveryHandler->handle($orderId, $orderStatusId);
         } catch (PackageException $e) {
+            if ($e instanceof ErrorResponseException) {
+                $message = $e->getErrorResponse()->getMessage();
+            } else {
+                $message = _PS_MODE_DEV_ ? $e->getMessage() : 'An error occurred';
+            }
+
             $this->addFlash('error', $this->getErrorMessageForException($e, [
+                ErrorResponseException::class => $message,
                 PackageException::class => _PS_MODE_DEV_ ? $e->getMessage() : 'An error occurred',
             ]));
 

@@ -18,7 +18,7 @@ class OtpController extends FrameworkBundleAdminController
     /**
      * @AdminSecurity("is_granted('read', request.get('_legacy_controller'))")
      */
-    public function index(Request $request): Response
+    public function index(Request $request, string $type): Response
     {
         $form = $this->createFormBuilder()
             ->setMethod('POST')

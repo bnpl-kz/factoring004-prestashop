@@ -8,3 +8,11 @@ file_destroy:
   methods: [ POST ]
   defaults:
     _controller: 'BnplPartners\Factoring004Prestashop\Controller\FileHandlerController::destroy'
+admin_factoring004_otp_index:
+  path: /factoring004/otp/
+  methods: [GET, POST]
+  defaults:
+    _controller: BnplPartners\Factoring004Prestashop\Controller\OtpController:index
+    _legacy_controller: Factoring004PrestashopOtpIndex
+    _legacy_link: Factoring004PrestashopOtpIndex
+    _disable_module_prefix: true

@@ -9,3 +9,5 @@ services:
       - '@doctrine.cache.provider'
   PrestaShopBundle\Controller\Admin\Sell\Order\OrderController:
     class: BnplPartners\Factoring004Prestashop\Controller\OrderController
+  BnplPartners\Factoring004Prestashop\Controller\OtpController:
+    class: BnplPartners\Factoring004Prestashop\Controller\OtpController

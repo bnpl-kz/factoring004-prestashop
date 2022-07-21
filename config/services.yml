@@ -1,5 +1,11 @@
 services:
+  _defaults:
+    public: true
+    autowire: true
+
   BnplPartnersFactoring004Prestashop\Controller\FileHandlerController:
     class: BnplPartners\Factoring004Prestashop\Controller\FileHandlerController
     arguments:
       - '@doctrine.cache.provider'
+  PrestaShopBundle\Controller\Admin\Sell\Order\OrderController:
+    class: BnplPartners\Factoring004Prestashop\Controller\OrderController

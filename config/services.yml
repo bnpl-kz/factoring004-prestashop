@@ -13,6 +13,7 @@ services:
     class: BnplPartners\Factoring004Prestashop\Controller\OrderController
   BnplPartners\Factoring004Prestashop\Controller\OtpController:
     class: BnplPartners\Factoring004Prestashop\Controller\OtpController
+    arguments: ["@=service('factoring004_'~service('request_stack').getCurrentRequest().attributes.get('type')~'_otp_checker')"]
   BnplPartners\Factoring004Prestashop\DeliveryHandler:
     class: BnplPartners\Factoring004Prestashop\DeliveryHandler
     arguments:
@@ -30,3 +31,5 @@ services:
           - '@logger'
   Symfony\Component\HttpClient\Psr18Client:
     class: Symfony\Component\HttpClient\Psr18Client
+  factoring004_delivery_otp_checker:
+    class: BnplPartners\Factoring004Prestashop\Otp\DeliveryOtpChecker

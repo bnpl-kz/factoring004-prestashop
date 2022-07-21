@@ -1,0 +1,10 @@
+file_upload:
+  path: factoring004/file-upload
+  methods: [POST]
+  defaults:
+    _controller: 'BnplPartners\Factoring004Prestashop\Controller\FileHandlerController::upload'
+file_destroy:
+  path: factoring004/file-destroy
+  methods: [ POST ]
+  defaults:
+    _controller: 'BnplPartners\Factoring004Prestashop\Controller\FileHandlerController::destroy'

@@ -6,11 +6,7 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'BnplPartners\\Factoring004Prestashop\\Controllers\\OrderController' => $baseDir . '/src/Controllers/OrderController.php',
-    'BnplPartners\\Factoring004Prestashop\\Controllers\\OtpController' => $baseDir . '/src/Controllers/OtpController.php',
-    'BnplPartners\\Factoring004Prestashop\\DeliveryHandler' => $baseDir . '/src/DeliveryHandler.php',
-    'BnplPartners\\Factoring004Prestashop\\Logger' => $baseDir . '/src/Logger.php',
-    'BnplPartners\\Factoring004Prestashop\\LoggerFactory' => $baseDir . '/src/LoggerFactory.php',
+    'BnplPartners\\Factoring004Prestashop\\Controller\\FileHandlerController' => $baseDir . '/src/Controller/FileHandlerController.php',
     'BnplPartners\\Factoring004\\AbstractResource' => $vendorDir . '/bnpl-partners/factoring004/src/AbstractResource.php',
     'BnplPartners\\Factoring004\\Api' => $vendorDir . '/bnpl-partners/factoring004/src/Api.php',
     'BnplPartners\\Factoring004\\ArrayInterface' => $vendorDir . '/bnpl-partners/factoring004/src/ArrayInterface.php',

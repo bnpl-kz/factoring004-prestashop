@@ -1,0 +1,5 @@
+services:
+  BnplPartnersFactoring004Prestashop\Controller\FileHandlerController:
+    class: BnplPartners\Factoring004Prestashop\Controller\FileHandlerController
+    arguments:
+      - '@doctrine.cache.provider'

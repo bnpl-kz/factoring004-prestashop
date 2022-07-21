@@ -70,8 +70,8 @@ class ComposerStaticInit36a7a15d335915fb3c9feb7056bffd81
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -114,11 +114,7 @@ class ComposerStaticInit36a7a15d335915fb3c9feb7056bffd81
     );
 
     public static $classMap = array (
-        'BnplPartners\\Factoring004Prestashop\\Controllers\\OrderController' => __DIR__ . '/../..' . '/src/Controllers/OrderController.php',
-        'BnplPartners\\Factoring004Prestashop\\Controllers\\OtpController' => __DIR__ . '/../..' . '/src/Controllers/OtpController.php',
-        'BnplPartners\\Factoring004Prestashop\\DeliveryHandler' => __DIR__ . '/../..' . '/src/DeliveryHandler.php',
-        'BnplPartners\\Factoring004Prestashop\\Logger' => __DIR__ . '/../..' . '/src/Logger.php',
-        'BnplPartners\\Factoring004Prestashop\\LoggerFactory' => __DIR__ . '/../..' . '/src/LoggerFactory.php',
+        'BnplPartners\\Factoring004Prestashop\\Controller\\FileHandlerController' => __DIR__ . '/../..' . '/src/Controller/FileHandlerController.php',
         'BnplPartners\\Factoring004\\AbstractResource' => __DIR__ . '/..' . '/bnpl-partners/factoring004/src/AbstractResource.php',
         'BnplPartners\\Factoring004\\Api' => __DIR__ . '/..' . '/bnpl-partners/factoring004/src/Api.php',
         'BnplPartners\\Factoring004\\ArrayInterface' => __DIR__ . '/..' . '/bnpl-partners/factoring004/src/ArrayInterface.php',

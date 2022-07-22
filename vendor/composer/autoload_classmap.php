@@ -11,6 +11,7 @@ return array(
     'BnplPartners\\Factoring004Prestashop\\Controller\\OtpController' => $baseDir . '/src/Controller/OtpController.php',
     'BnplPartners\\Factoring004Prestashop\\Handler\\AbstractOrderStatusHandler' => $baseDir . '/src/Handler/AbstractOrderStatusHandler.php',
     'BnplPartners\\Factoring004Prestashop\\Handler\\AbstractOrderStatusRefundHandler' => $baseDir . '/src/Handler/AbstractOrderStatusRefundHandler.php',
+    'BnplPartners\\Factoring004Prestashop\\Handler\\CancelHandler' => $baseDir . '/src/Handler/CancelHandler.php',
     'BnplPartners\\Factoring004Prestashop\\Handler\\DeliveryHandler' => $baseDir . '/src/Handler/DeliveryHandler.php',
     'BnplPartners\\Factoring004Prestashop\\Handler\\FullRefundHandler' => $baseDir . '/src/Handler/FullRefundHandler.php',
     'BnplPartners\\Factoring004Prestashop\\Handler\\OrderStatusHandlerInterface' => $baseDir . '/src/Handler/OrderStatusHandlerInterface.php',

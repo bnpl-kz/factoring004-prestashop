@@ -12,7 +12,7 @@ services:
   PrestaShopBundle\Controller\Admin\Sell\Order\OrderController:
     class: BnplPartners\Factoring004Prestashop\Controller\OrderController
     arguments:
-      - [ '@BnplPartners\Factoring004Prestashop\Handler\DeliveryHandler', '@BnplPartners\Factoring004Prestashop\Handler\FullRefundHandler', '@BnplPartners\Factoring004Prestashop\Handler\PartialRefundHandler' ]
+      - [ '@BnplPartners\Factoring004Prestashop\Handler\DeliveryHandler', '@BnplPartners\Factoring004Prestashop\Handler\FullRefundHandler', '@BnplPartners\Factoring004Prestashop\Handler\PartialRefundHandler', '@BnplPartners\Factoring004Prestashop\Handler\CancelHandler' ]
   BnplPartners\Factoring004Prestashop\Controller\OtpController:
     class: BnplPartners\Factoring004Prestashop\Controller\OtpController
     arguments: ["@=service('factoring004_'~service('request_stack').getCurrentRequest().attributes.get('type')~'_otp_checker')"]
@@ -22,6 +22,8 @@ services:
     class: BnplPartners\Factoring004Prestashop\Handler\FullRefundHandler
   BnplPartners\Factoring004Prestashop\Handler\PartialRefundHandler:
     class: BnplPartners\Factoring004Prestashop\Handler\PartialRefundHandler
+  BnplPartners\Factoring004Prestashop\Handler\CancelHandler:
+    class: BnplPartners\Factoring004Prestashop\Handler\CancelHandler
   BnplPartners\Factoring004\Transport\PsrTransport:
     class: BnplPartners\Factoring004\Transport\PsrTransport
     arguments:

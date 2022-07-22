@@ -35,3 +35,5 @@ services:
     class: Symfony\Component\HttpClient\Psr18Client
   factoring004_delivery_otp_checker:
     class: BnplPartners\Factoring004Prestashop\Otp\DeliveryOtpChecker
+  factoring004_refund_otp_checker:
+    class: BnplPartners\Factoring004Prestashop\Otp\RefundOtpChecker

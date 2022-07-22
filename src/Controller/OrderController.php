@@ -64,6 +64,33 @@ class OrderController extends \PrestaShopBundle\Controller\Admin\Sell\Order\Orde
         );
     }
 
+    public function partialRefundAction(int $orderId, Request $request): RedirectResponse
+    {
+        $data = $request->request->get('cancel_product', []);
+        $amount = 0;
+
+        foreach ($data as $key => $value) {
+            if (preg_match('/^amount_\d+$/i', $key) === 1) {
+                $amount += (float) $value;
+            }
+        }
+
+        return $this->updateOrderStatusConditionally(
+            $request,
+            $orderId,
+            'partial_refund',
+            function () use ($request, $orderId) {
+                return parent::partialRefundAction($orderId, $request);
+            },
+            function () use ($orderId) {
+                return $this->redirectToRoute('admin_orders_view', [
+                    'orderId' => $orderId,
+                ]);
+            },
+            $amount
+        );
+    }
+
     /**
      * @param callable(): RedirectResponse $updater
      * @param callable(): RedirectResponse $previous

@@ -12,7 +12,7 @@ admin_factoring004_otp_index:
   path: /factoring004/otp/{type}/
   methods: [GET, POST]
   requirements:
-    type: delivery|refund
+    type: delivery|full_refund|partial_refund
   defaults:
     _controller: BnplPartners\Factoring004Prestashop\Controller\OtpController:index
     _legacy_controller: Factoring004PrestashopOtpIndex

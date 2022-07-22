@@ -2,74 +2,58 @@
 
 declare(strict_types=1);
 
-namespace BnplPartners\Factoring004Prestashop;
+namespace BnplPartners\Factoring004Prestashop\Handler;
 
 use BnplPartners\Factoring004\Api;
 use BnplPartners\Factoring004\Auth\BearerTokenAuth;
-use BnplPartners\Factoring004\ChangeStatus\DeliveryOrder;
-use BnplPartners\Factoring004\ChangeStatus\DeliveryStatus;
+use BnplPartners\Factoring004\ChangeStatus\AbstractMerchantOrder;
 use BnplPartners\Factoring004\ChangeStatus\MerchantsOrders;
 use BnplPartners\Factoring004\Exception\ErrorResponseException;
-use BnplPartners\Factoring004\Otp\SendOtp;
 use BnplPartners\Factoring004\Response\ErrorResponse;
 use BnplPartners\Factoring004\Transport\TransportInterface;
 use ConfigurationCore;
 use OrderCore;
 
-class DeliveryHandler
+abstract class AbstractOrderStatusHandler implements OrderStatusHandlerInterface
 {
     /**
      * @var \BnplPartners\Factoring004\Transport\TransportInterface
      */
-    private $transport;
+    protected $transport;
 
     public function __construct(TransportInterface $transport)
     {
         $this->transport = $transport;
     }
 
-    /**
-     * @param int|string $orderStatusId
-     *
-     * @throws \BnplPartners\Factoring004\Exception\PackageException
-     */
-    public function handle(int $orderId, $orderStatusId): bool
+    final public function handle(OrderCore $order, $amount = null): bool
     {
-        $order = new OrderCore($orderId);
-
-        if ($orderStatusId !== '5') {
-            return false;
-        }
-        
         if (in_array((string) $order->id_carrier, $this->getConfirmableDeliveryMethods(), true)) {
-            $this->sendOtp((string) $orderId, (int) ceil($order->total_paid));
+            $this->sendOtp((string) $order->id, (int) ceil($amount ?? $order->total_paid));
             return true;
         }
 
-        $this->confirmWithoutOtp((string) $orderId, (int) ceil($order->total_paid));
+        $this->confirmWithoutOtp((string) $order->id, (int) ceil($amount ?? $order->total_paid));
         return false;
     }
 
     /**
      * @throws \BnplPartners\Factoring004\Exception\PackageException
      */
-    private function sendOtp(string $orderId, int $totalAmount): void
-    {
-        $this->createApi()
-            ->otp
-            ->sendOtp(new SendOtp($this->getMerchantId(), $orderId, $totalAmount));
-    }
+    abstract protected function sendOtp(string $orderId, int $totalAmount): void;
+
+    abstract protected function createChangeStatusOrder(string $orderId, int $totalAmount): AbstractMerchantOrder;
 
     /**
      * @throws \BnplPartners\Factoring004\Exception\PackageException
      */
-    private function confirmWithoutOtp(string $orderId, int $totalAmount): void
+    protected function confirmWithoutOtp(string $orderId, int $totalAmount): void
     {
         $response = $this->createApi()
             ->changeStatus
             ->changeStatusJson([
                 new MerchantsOrders($this->getMerchantId(), [
-                    new DeliveryOrder($orderId, DeliveryStatus::DELIVERED(), $totalAmount),
+                    $this->createChangeStatusOrder($orderId, $totalAmount),
                 ]),
             ]);
 
@@ -84,7 +68,7 @@ class DeliveryHandler
         }
     }
 
-    private function createApi(): Api
+    protected function createApi(): Api
     {
         return Api::create(
             ConfigurationCore::get('FACTORING004_API_HOST') ?: 'http://localhost',
@@ -93,7 +77,7 @@ class DeliveryHandler
         );
     }
 
-    private function getMerchantId(): string
+    protected function getMerchantId(): string
     {
         return ConfigurationCore::get('FACTORING004_PARTNER_CODE') ?: '';
     }
@@ -101,8 +85,10 @@ class DeliveryHandler
     /**
      * @return string[]
      */
-    private function getConfirmableDeliveryMethods(): array
+    protected function getConfirmableDeliveryMethods(): array
     {
-        return array_map('trim', explode(',', ConfigurationCore::get('FACTORING004_DELIVERY_METHODS') ?: ''));
+        $ids = ConfigurationCore::get('FACTORING004_DELIVERY_METHODS');
+
+        return $ids ? array_map('trim', explode(',', $ids)) : [];
     }
 }

@@ -1,5 +1,35 @@
 services:
+  _defaults:
+    public: true
+    autowire: true
+    bind:
+      BnplPartners\Factoring004\Transport\TransportInterface: '@BnplPartners\Factoring004\Transport\PsrTransport'
+
   BnplPartnersFactoring004Prestashop\Controller\FileHandlerController:
     class: BnplPartners\Factoring004Prestashop\Controller\FileHandlerController
     arguments:
       - '@doctrine.cache.provider'
+  PrestaShopBundle\Controller\Admin\Sell\Order\OrderController:
+    class: BnplPartners\Factoring004Prestashop\Controller\OrderController
+  BnplPartners\Factoring004Prestashop\Controller\OtpController:
+    class: BnplPartners\Factoring004Prestashop\Controller\OtpController
+    arguments: ["@=service('factoring004_'~service('request_stack').getCurrentRequest().attributes.get('type')~'_otp_checker')"]
+  BnplPartners\Factoring004Prestashop\DeliveryHandler:
+    class: BnplPartners\Factoring004Prestashop\DeliveryHandler
+    arguments:
+      - '@BnplPartners\Factoring004\Transport\PsrTransport'
+  BnplPartners\Factoring004\Transport\PsrTransport:
+    class: BnplPartners\Factoring004\Transport\PsrTransport
+    arguments:
+      - '@Symfony\Component\HttpClient\Psr18Client'
+      - '@Symfony\Component\HttpClient\Psr18Client'
+      - '@Symfony\Component\HttpClient\Psr18Client'
+      - '@Symfony\Component\HttpClient\Psr18Client'
+    calls:
+      - method: setLogger
+        arguments:
+          - '@logger'
+  Symfony\Component\HttpClient\Psr18Client:
+    class: Symfony\Component\HttpClient\Psr18Client
+  factoring004_delivery_otp_checker:
+    class: BnplPartners\Factoring004Prestashop\Otp\DeliveryOtpChecker

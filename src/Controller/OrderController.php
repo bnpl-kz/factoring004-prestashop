@@ -6,14 +6,14 @@ namespace BnplPartners\Factoring004Prestashop\Controller;
 
 use BnplPartners\Factoring004\Exception\ErrorResponseException;
 use BnplPartners\Factoring004\Exception\PackageException;
-use BnplPartners\Factoring004Prestashop\DeliveryHandler;
+use BnplPartners\Factoring004Prestashop\Handler\DeliveryHandler;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class OrderController extends \PrestaShopBundle\Controller\Admin\Sell\Order\OrderController
 {
     /**
-     * @var \BnplPartners\Factoring004Prestashop\DeliveryHandler
+     * @var \BnplPartners\Factoring004Prestashop\Handler\DeliveryHandler
      */
     private $deliveryHandler;
 

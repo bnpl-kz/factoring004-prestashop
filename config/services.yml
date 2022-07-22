@@ -14,8 +14,8 @@ services:
   BnplPartners\Factoring004Prestashop\Controller\OtpController:
     class: BnplPartners\Factoring004Prestashop\Controller\OtpController
     arguments: ["@=service('factoring004_'~service('request_stack').getCurrentRequest().attributes.get('type')~'_otp_checker')"]
-  BnplPartners\Factoring004Prestashop\DeliveryHandler:
-    class: BnplPartners\Factoring004Prestashop\DeliveryHandler
+  BnplPartners\Factoring004Prestashop\Handler\DeliveryHandler:
+    class: BnplPartners\Factoring004Prestashop\Handler\DeliveryHandler
     arguments:
       - '@BnplPartners\Factoring004\Transport\PsrTransport'
   BnplPartners\Factoring004\Transport\PsrTransport:

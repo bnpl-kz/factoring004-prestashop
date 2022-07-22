@@ -2,6 +2,8 @@ services:
   _defaults:
     public: true
     autowire: true
+    bind:
+      BnplPartners\Factoring004\Transport\TransportInterface: '@BnplPartners\Factoring004\Transport\PsrTransport'
 
   BnplPartnersFactoring004Prestashop\Controller\FileHandlerController:
     class: BnplPartners\Factoring004Prestashop\Controller\FileHandlerController

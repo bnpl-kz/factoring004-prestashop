@@ -16,8 +16,8 @@ services:
     arguments: ["@=service('factoring004_'~service('request_stack').getCurrentRequest().attributes.get('type')~'_otp_checker')"]
   BnplPartners\Factoring004Prestashop\Handler\DeliveryHandler:
     class: BnplPartners\Factoring004Prestashop\Handler\DeliveryHandler
-    arguments:
-      - '@BnplPartners\Factoring004\Transport\PsrTransport'
+  BnplPartners\Factoring004Prestashop\Handler\FullRefundHandler:
+    class: BnplPartners\Factoring004Prestashop\Handler\FullRefundHandler
   BnplPartners\Factoring004\Transport\PsrTransport:
     class: BnplPartners\Factoring004\Transport\PsrTransport
     arguments:

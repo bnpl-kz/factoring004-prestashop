@@ -27,7 +27,7 @@ class Factoring004 extends PaymentModuleCore
         parent::__construct();
     }
 
-    public function install(): bool
+    public function install()
     {
         DbCore::getInstance()->execute(
             'CREATE TABLE IF NOT EXISTS `'. _DB_PREFIX_ .'factoring004_order_preapps` (
@@ -39,25 +39,32 @@ class Factoring004 extends PaymentModuleCore
                 UNIQUE(`order_id`,`preapp_uid`)
             ) ENGINE=InnoDB;'
         );
-        return parent::install();
+        $this->addOrderState();
+        ConfigurationCore::updateValue('PS_OS_FACTORING004', DbCore::getInstance()->query(
+            'SELECT * FROM `'. _DB_PREFIX_ .'order_state` WHERE `module_name` = '."'$this->name'".';'
+        )->fetch()['id_order_state']);
+        return parent::install()
+            && $this->registerHook('paymentOptions');
     }
 
-    public function uninstall(): bool
+    public function uninstall()
     {
         DbCore::getInstance()->execute(
             'DROP TABLE IF EXISTS `'. _DB_PREFIX_ .'factoring004_order_preapps`;'
         );
-        return ConfigurationCore::deleteByName('FACTORING004_API_HOST')
-        && ConfigurationCore::deleteByName('FACTORING004_PA_TOKEN')
-        && ConfigurationCore::deleteByName('FACTORING004_AS_TOKEN')
-        && ConfigurationCore::deleteByName('FACTORING004_PARTNER_NAME')
-        && ConfigurationCore::deleteByName('FACTORING004_PARTNER_CODE')
-        && ConfigurationCore::deleteByName('FACTORING004_POINT_CODE')
-        && ConfigurationCore::deleteByName('FACTORING004_PARTNER_EMAIL')
-        && ConfigurationCore::deleteByName('FACTORING004_PARTNER_WEBSITE')
-        && ConfigurationCore::deleteByName('FACTORING004_DELIVERY_METHODS')
-        && ConfigurationCore::deleteByName('FACTORING004_OFFER_FILE_NAME')
-        && parent::uninstall();
+        $this->deleteOrderState();
+        return ConfigurationCore::deleteByName('PS_OS_FACTORING004')
+            && ConfigurationCore::deleteByName('FACTORING004_API_HOST')
+            && ConfigurationCore::deleteByName('FACTORING004_PA_TOKEN')
+            && ConfigurationCore::deleteByName('FACTORING004_AS_TOKEN')
+            && ConfigurationCore::deleteByName('FACTORING004_PARTNER_NAME')
+            && ConfigurationCore::deleteByName('FACTORING004_PARTNER_CODE')
+            && ConfigurationCore::deleteByName('FACTORING004_POINT_CODE')
+            && ConfigurationCore::deleteByName('FACTORING004_PARTNER_EMAIL')
+            && ConfigurationCore::deleteByName('FACTORING004_PARTNER_WEBSITE')
+            && ConfigurationCore::deleteByName('FACTORING004_DELIVERY_METHODS')
+            && ConfigurationCore::deleteByName('FACTORING004_OFFER_FILE_NAME')
+            && parent::uninstall();
     }
 
     public function getContent(): string
@@ -88,6 +95,34 @@ class Factoring004 extends PaymentModuleCore
         return $this->fetch('module:factoring004/views/templates/admin/configuration.tpl');
     }
 
+    public function hookPaymentOptions($params)
+    {
+        if (!$this->active) {
+            return;
+        }
+
+        $formAction = $this->context->link->getModuleLink($this->name, 'validation', array(), true);
+        $totalPrice = $this->context->cart->getOrderTotal();
+
+        $this->smarty->assign([
+            'action' => $formAction,
+            'totalPrice' => $totalPrice
+        ]);
+
+        $paymentForm = $this->fetch('module:factoring004/views/templates/hook/payment_options.tpl');
+
+        $newOption = new PrestaShop\PrestaShop\Core\Payment\PaymentOption;
+        $newOption->setModuleName($this->displayName)
+            ->setCallToActionText($this->displayName)
+            ->setAction($formAction)
+            ->setForm($paymentForm);
+        $payment_options = array(
+            $newOption
+        );
+
+        return $payment_options;
+    }
+
     private function getConfigurationValues(): array
     {
         return [
@@ -111,5 +146,35 @@ class Factoring004 extends PaymentModuleCore
          */
         $router = SymfonyContainer::getInstance()->get('router');
         return $router->generate($name);
+    }
+
+    private function addOrderState(): void
+    {
+        $order_state = new OrderStateCore();
+        $order_state->color = '#34209E';
+        $order_state->send_email = false;
+        $order_state->module_name = $this->name;
+        $order_state->template = $this->name;
+        $order_state->name = array();
+        $languages = LanguageCore::getLanguages(false);
+        foreach ($languages as $language) {
+            if ($language['iso_code'] === 'ru') {
+                $order_state->name[$language['id_lang']] = 'Ожидается оплата Рассрочка 0-0-4';
+            } else {
+                $order_state->name[$language['id_lang']] = 'Awaiting Factoring 0-0-4 payment';
+            }
+        }
+
+        $order_state->add();
+    }
+
+    private function deleteOrderState(): void
+    {
+        DbCore::getInstance()->execute(
+            'DELETE FROM `'. _DB_PREFIX_ .'order_state` WHERE `module_name` = '."'$this->name'".';'
+        );
+        DbCore::getInstance()->execute(
+            'DELETE FROM `'. _DB_PREFIX_ .'order_state_lang` WHERE `template` = '."'$this->name'".';'
+        );
     }
 }

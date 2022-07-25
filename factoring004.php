@@ -5,6 +5,7 @@ if (!defined('_PS_VERSION_')) {
 }
 
 use PrestaShop\PrestaShop\Adapter\LegacyLogger;
+use PrestaShop\PrestaShop\Adapter\Order\CommandHandler\UpdateOrderStatusHandler;
 use PrestaShop\PrestaShop\Adapter\SymfonyContainer;
 
 class Factoring004 extends PaymentModuleCore
@@ -133,9 +134,14 @@ class Factoring004 extends PaymentModuleCore
         /** @var \ModuleFrontControllerCore $controller */
         $controller = $params['controller'];
 
-        if ($controller instanceof Factoring004PostLinkModuleFrontController) {
-            $controller->setLogger(new LegacyLogger());
+        if (!$controller instanceof Factoring004PostLinkModuleFrontController) {
+            return;
         }
+
+        ContextCore::getContext()->employee = new EmployeeCore();
+
+        $controller->setLogger(new LegacyLogger());
+        $controller->setUpdateStatusHandler(new UpdateOrderStatusHandler());
     }
 
     private function getConfigurationValues(): array

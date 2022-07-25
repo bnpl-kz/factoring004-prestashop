@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use BnplPartners\Factoring004\Signature\PostLinkSignatureValidator;
+use PrestaShop\PrestaShop\Core\Domain\Order\Command\UpdateOrderStatusCommand;
+use PrestaShop\PrestaShop\Core\Domain\Order\CommandHandler\UpdateOrderStatusHandlerInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -23,6 +25,16 @@ class Factoring004PostLinkModuleFrontController extends ModuleFrontControllerCor
     public $guestAllowed = true;
     protected $json = true;
 
+    /**
+     * @var \PrestaShop\PrestaShop\Core\Domain\Order\CommandHandler\UpdateOrderStatusHandlerInterface
+     */
+    private $updateStatusHandler;
+
+    public function setUpdateStatusHandler(UpdateOrderStatusHandlerInterface $updateStatusHandler): void
+    {
+        $this->updateStatusHandler = $updateStatusHandler;
+    }
+
     public function postProcess(): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -40,27 +52,18 @@ class Factoring004PostLinkModuleFrontController extends ModuleFrontControllerCor
             return;
         }
 
-        $order = new OrderCore($request['billNumber']);
-
-        if ($order->getOrdersTotalPaid() === null) {
-            $this->jsonResponse(['error' => 'Order not found'], JsonResponse::HTTP_BAD_REQUEST);
-            return;
-        }
-
         if ($request['status'] === static::STATUS_PREAPPROVED) {
             $this->jsonResponse(['response' => static::STATUS_PREAPPROVED]);
             return;
         }
 
-        $orderHistory = new OrderHistoryCore();
-        $orderHistory->id_order = $order->id;
-
         if ($request['status'] === static::STATUS_COMPLETED) {
             DB::getInstance()->execute('BEGIN');
 
-            $orderHistory->changeIdOrderState(2, $order->id);
+            $this->updateStatusHandler->handle(new UpdateOrderStatusCommand((int) $request['billNumber'], 2));
+
             DB::getInstance()->insert('factoring004_order_preapps', [
-                'order_id' => $order->id,
+                'order_id' => $request['billNumber'],
                 'preapp_uid' => $request['preappId'],
             ]);
 
@@ -74,7 +77,8 @@ class Factoring004PostLinkModuleFrontController extends ModuleFrontControllerCor
         }
 
         if ($request['status'] === static::STATUS_DECLINED) {
-            $orderHistory->changeIdOrderState(8, $order->id);
+            $this->updateStatusHandler->handle(new UpdateOrderStatusCommand((int) $request['billNumber'], 8));
+
             $this->jsonResponse(['response' => static::STATUS_DECLINED]);
             return;
         }

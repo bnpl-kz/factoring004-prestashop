@@ -25,6 +25,11 @@ class Factoring004PostLinkModuleFrontController extends ModuleFrontControllerCor
 
     public function postProcess(): void
     {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->jsonResponse(['error' => 'Invalid request method'], JsonResponse::HTTP_METHOD_NOT_ALLOWED, ['Allow' => 'POST']);
+            return;
+        }
+
         try {
             $request = $this->readJsonInput();
 
@@ -124,6 +129,9 @@ class Factoring004PostLinkModuleFrontController extends ModuleFrontControllerCor
     private function jsonResponse(array $data, int $status = JsonResponse::HTTP_OK, array $headers = []): void
     {
         $response = new JsonResponse($data, $status, $headers);
-        $response->send();
+        $response->sendHeaders();
+
+        $this->ajaxRender($response->getContent());
+        exit;
     }
 }

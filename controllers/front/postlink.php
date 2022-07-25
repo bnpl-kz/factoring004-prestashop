@@ -3,13 +3,17 @@
 declare(strict_types=1);
 
 use BnplPartners\Factoring004\Signature\PostLinkSignatureValidator;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @mixin \FrontControllerCore
  */
-class Factoring004PostLinkModuleFrontController extends ModuleFrontControllerCore
+class Factoring004PostLinkModuleFrontController extends ModuleFrontControllerCore implements LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     private const REQUIRED_FIELDS = ['status', 'billNumber', 'preappId'];
     private const STATUS_PREAPPROVED = 'preapproved';
     private const STATUS_COMPLETED = 'completed';
@@ -23,6 +27,8 @@ class Factoring004PostLinkModuleFrontController extends ModuleFrontControllerCor
     {
         try {
             $request = $this->readJsonInput();
+
+            $this->logger->debug('Factoring004 POSTLINK: ' . json_encode($request));
             $this->validateRequest($request);
         } catch (Exception $e) {
             $this->jsonResponse(['error' => $e->getMessage()], JsonResponse::HTTP_BAD_REQUEST);

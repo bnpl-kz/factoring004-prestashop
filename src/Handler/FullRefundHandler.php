@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace BnplPartners\Factoring004Prestashop\Handler;
 
 use BnplPartners\Factoring004\ChangeStatus\ReturnStatus;
+use ConfigurationCore;
 
 class FullRefundHandler extends AbstractOrderStatusRefundHandler
 {
@@ -17,7 +18,7 @@ class FullRefundHandler extends AbstractOrderStatusRefundHandler
 
     public function shouldProcess($orderStatusId): bool
     {
-        return $orderStatusId === '7';
+        return $orderStatusId === ConfigurationCore::get('FACTORING004_RETURN_ORDER_STATUS');
     }
 
     public function getKey(): string

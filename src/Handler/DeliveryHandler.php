@@ -8,6 +8,7 @@ use BnplPartners\Factoring004\ChangeStatus\AbstractMerchantOrder;
 use BnplPartners\Factoring004\ChangeStatus\DeliveryOrder;
 use BnplPartners\Factoring004\ChangeStatus\DeliveryStatus;
 use BnplPartners\Factoring004\Otp\SendOtp;
+use ConfigurationCore;
 
 class DeliveryHandler extends AbstractOrderStatusHandler
 {
@@ -27,7 +28,7 @@ class DeliveryHandler extends AbstractOrderStatusHandler
 
     public function shouldProcess($orderStatusId): bool
     {
-        return $orderStatusId === '5';
+        return $orderStatusId === ConfigurationCore::get('FACTORING004_DELIVERY_ORDER_STATUS');
     }
 
     public function getKey(): string

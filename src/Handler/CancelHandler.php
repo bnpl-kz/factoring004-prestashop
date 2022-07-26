@@ -34,7 +34,7 @@ class CancelHandler implements OrderStatusHandlerInterface
 
     public function shouldProcess($orderStatusId): bool
     {
-        return (string) $orderStatusId === '6';
+        return (string) $orderStatusId === ConfigurationCore::get('FACTORING004_CANCEL_ORDER_STATUS');
     }
 
     public function handle(OrderCore $order, $amount = null): bool

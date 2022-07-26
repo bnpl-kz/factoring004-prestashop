@@ -62,7 +62,8 @@ class Factoring004PostLinkModuleFrontController extends ModuleFrontControllerCor
         if ($request['status'] === static::STATUS_COMPLETED) {
             DB::getInstance()->execute('BEGIN');
 
-            $this->updateStatusHandler->handle(new UpdateOrderStatusCommand((int) $request['billNumber'], 2));
+            $status = (int) ConfigurationCore::get('FACTORING004_PAID_ORDER_STATUS');
+            $this->updateStatusHandler->handle(new UpdateOrderStatusCommand((int) $request['billNumber'], $status));
 
             DB::getInstance()->insert('factoring004_order_preapps', [
                 'order_id' => $request['billNumber'],
@@ -79,7 +80,8 @@ class Factoring004PostLinkModuleFrontController extends ModuleFrontControllerCor
         }
 
         if ($request['status'] === static::STATUS_DECLINED) {
-            $this->updateStatusHandler->handle(new UpdateOrderStatusCommand((int) $request['billNumber'], 8));
+            $status = (int) ConfigurationCore::get('FACTORING004_DECLINED_ORDER_STATUS');
+            $this->updateStatusHandler->handle(new UpdateOrderStatusCommand((int) $request['billNumber'], $status));
 
             $this->jsonResponse(['response' => static::STATUS_DECLINED]);
             return;

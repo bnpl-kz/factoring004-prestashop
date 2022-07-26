@@ -9,6 +9,7 @@ return array(
     'BnplPartners\\Factoring004Prestashop\\Controller\\FileHandlerController' => $baseDir . '/src/Controller/FileHandlerController.php',
     'BnplPartners\\Factoring004Prestashop\\Controller\\OrderController' => $baseDir . '/src/Controller/OrderController.php',
     'BnplPartners\\Factoring004Prestashop\\Controller\\OtpController' => $baseDir . '/src/Controller/OtpController.php',
+    'BnplPartners\\Factoring004Prestashop\\Form\\ChangeOrdersStatusType' => $baseDir . '/src/Form/ChangeOrdersStatusType.php',
     'BnplPartners\\Factoring004Prestashop\\Handler\\AbstractOrderStatusHandler' => $baseDir . '/src/Handler/AbstractOrderStatusHandler.php',
     'BnplPartners\\Factoring004Prestashop\\Handler\\AbstractOrderStatusRefundHandler' => $baseDir . '/src/Handler/AbstractOrderStatusRefundHandler.php',
     'BnplPartners\\Factoring004Prestashop\\Handler\\CancelHandler' => $baseDir . '/src/Handler/CancelHandler.php',

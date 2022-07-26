@@ -6,7 +6,10 @@ namespace BnplPartners\Factoring004Prestashop\Controller;
 
 use BnplPartners\Factoring004\Exception\ErrorResponseException;
 use BnplPartners\Factoring004\Exception\PackageException;
+use BnplPartners\Factoring004Prestashop\Form\ChangeOrdersStatusType;
 use OrderCore;
+use PrestaShopBundle\Form\Admin\Sell\Order\ChangeOrdersStatusType as BaseChangeOrdersStatusType;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -153,5 +156,14 @@ class OrderController extends \PrestaShopBundle\Controller\Admin\Sell\Order\Orde
         }
 
         return $updater();
+    }
+
+    protected function createForm($type, $data = null, array $options = []): FormInterface
+    {
+        if ($type === BaseChangeOrdersStatusType::class) {
+            $type = ChangeOrdersStatusType::class;
+        }
+
+        return parent::createForm($type, $data, $options);
     }
 }

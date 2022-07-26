@@ -37,6 +37,12 @@ services:
           - '@logger'
   Symfony\Component\HttpClient\Psr18Client:
     class: Symfony\Component\HttpClient\Psr18Client
+  'form.type.order.change_order_statuses':
+    class: BnplPartners\Factoring004Prestashop\Form\ChangeOrdersStatusType
+    arguments:
+      - '@prestashop.core.form.choice_provider.order_state_by_id'
+    tags:
+      - { name: form.type }
   factoring004_delivery_otp_checker:
     class: BnplPartners\Factoring004Prestashop\Otp\DeliveryOtpChecker
   factoring004_refund_otp_checker:

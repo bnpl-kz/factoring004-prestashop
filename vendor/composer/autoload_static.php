@@ -133,6 +133,7 @@ class ComposerStaticInit36a7a15d335915fb3c9feb7056bffd81
         'BnplPartners\\Factoring004Prestashop\\Controller\\FileHandlerController' => __DIR__ . '/../..' . '/src/Controller/FileHandlerController.php',
         'BnplPartners\\Factoring004Prestashop\\Controller\\OrderController' => __DIR__ . '/../..' . '/src/Controller/OrderController.php',
         'BnplPartners\\Factoring004Prestashop\\Controller\\OtpController' => __DIR__ . '/../..' . '/src/Controller/OtpController.php',
+        'BnplPartners\\Factoring004Prestashop\\Form\\ChangeOrdersStatusType' => __DIR__ . '/../..' . '/src/Form/ChangeOrdersStatusType.php',
         'BnplPartners\\Factoring004Prestashop\\Handler\\AbstractOrderStatusHandler' => __DIR__ . '/../..' . '/src/Handler/AbstractOrderStatusHandler.php',
         'BnplPartners\\Factoring004Prestashop\\Handler\\AbstractOrderStatusRefundHandler' => __DIR__ . '/../..' . '/src/Handler/AbstractOrderStatusRefundHandler.php',
         'BnplPartners\\Factoring004Prestashop\\Handler\\CancelHandler' => __DIR__ . '/../..' . '/src/Handler/CancelHandler.php',

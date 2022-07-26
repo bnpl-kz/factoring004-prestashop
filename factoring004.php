@@ -83,6 +83,7 @@ class Factoring004 extends PaymentModuleCore
             ConfigurationCore::updateValue('FACTORING004_PARTNER_WEBSITE', ToolsCore::getValue('FACTORING004_PARTNER_WEBSITE'));
             ConfigurationCore::updateValue('FACTORING004_DELIVERY_METHODS',  implode(',',ToolsCore::getValue('FACTORING004_DELIVERY_METHODS') ?: []));
             ConfigurationCore::updateValue('FACTORING004_OFFER_FILE_NAME', ToolsCore::getValue('FACTORING004_OFFER_FILE_NAME'));
+            ToolsCore::redirect($_SERVER['HTTP_REFERER']);
         }
 
         $formAction = $this->context->link->getAdminLink('AdminModules') .
@@ -106,10 +107,12 @@ class Factoring004 extends PaymentModuleCore
 
         $formAction = $this->context->link->getModuleLink($this->name, 'validation', array(), true);
         $totalPrice = $this->context->cart->getOrderTotal();
+        $offerFileName = ConfigurationCore::get('FACTORING004_OFFER_FILE_NAME');
 
         $this->smarty->assign([
             'action' => $formAction,
-            'totalPrice' => $totalPrice
+            'totalPrice' => $totalPrice,
+            'offerFileName' => $offerFileName
         ]);
 
         $paymentForm = $this->fetch('module:factoring004/views/templates/hook/payment_options.tpl');

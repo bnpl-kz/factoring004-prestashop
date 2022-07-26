@@ -4,6 +4,8 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
+use PrestaShop\PrestaShop\Adapter\LegacyLogger;
+use PrestaShop\PrestaShop\Adapter\Order\CommandHandler\UpdateOrderStatusHandler;
 use PrestaShop\PrestaShop\Adapter\SymfonyContainer;
 
 class Factoring004 extends PaymentModuleCore
@@ -44,7 +46,8 @@ class Factoring004 extends PaymentModuleCore
             'SELECT * FROM `'. _DB_PREFIX_ .'order_state` WHERE `module_name` = '."'$this->name'".';'
         )->fetch()['id_order_state']);
         return parent::install()
-            && $this->registerHook('paymentOptions');
+            && $this->registerHook('paymentOptions')
+            && $this->registerHook('actionFrontControllerInitAfter');
     }
 
     public function uninstall()
@@ -121,6 +124,24 @@ class Factoring004 extends PaymentModuleCore
         );
 
         return $payment_options;
+    }
+
+    /**
+     * @param array<string, mixed> $params
+     */
+    public function hookActionFrontControllerInitAfter(array $params): void
+    {
+        /** @var \ModuleFrontControllerCore $controller */
+        $controller = $params['controller'];
+
+        if (!$controller instanceof Factoring004PostLinkModuleFrontController) {
+            return;
+        }
+
+        ContextCore::getContext()->employee = new EmployeeCore();
+
+        $controller->setLogger(new LegacyLogger());
+        $controller->setUpdateStatusHandler(new UpdateOrderStatusHandler());
     }
 
     private function getConfigurationValues(): array

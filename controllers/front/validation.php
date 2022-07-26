@@ -116,12 +116,11 @@ class Factoring004ValidationModuleFrontController extends ModuleFrontControllerC
                 ],
             ]);
 
+            return $api->preApps->preApp($message)->getRedirectLink();
         } catch (PackageException $e) {
             PrestaShopLoggerCore::addLog($e->getMessage());
             $this->errors[] = 'An error occurred';
             return $this->redirectWithNotifications('');
         }
-
-        return $api->preApps->preApp($message)->getRedirectLink();
     }
 }

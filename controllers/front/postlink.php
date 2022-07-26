@@ -9,9 +9,6 @@ use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-/**
- * @mixin \FrontControllerCore
- */
 class Factoring004PostLinkModuleFrontController extends ModuleFrontControllerCore implements LoggerAwareInterface
 {
     use LoggerAwareTrait;

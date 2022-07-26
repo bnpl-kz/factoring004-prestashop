@@ -95,6 +95,86 @@
                     {/if}
                 </div>
             </div>
+            <div class="form-group">
+                <label class="control-label col-lg-4">
+                    Статус оплаченных заказов
+                </label>
+                <div class="col-lg-8">
+                    <select name="FACTORING004_PAID_ORDER_STATUS" id="FACTORING004_PAID_ORDER_STATUS">
+                        {foreach from=$statuses item=status}
+                            {if $configuration_value.factoring004_paid_order_status}
+                                <option {if $status.id_order_state == $configuration_value.factoring004_paid_order_status} selected {/if} value="{$status.id_order_state}">{$status.name}</option>
+                            {else}
+                                <option {if $status.name|in_array:['Payment accepted', 'Платеж принят']} selected {/if} value="{$status.id_order_state}">{$status.name}</option>
+                            {/if}
+                        {/foreach}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-lg-4">
+                    Статус неуспешных заказов
+                </label>
+                <div class="col-lg-8">
+                    <select name="FACTORING004_DECLINED_ORDER_STATUS" id="FACTORING004_DECLINED_ORDER_STATUS">
+                        {foreach from=$statuses item=status}
+                            {if $configuration_value.factoring004_declined_order_status}
+                                <option {if $status.id_order_state == $configuration_value.factoring004_declined_order_status} selected {/if} value="{$status.id_order_state}">{$status.name}</option>
+                            {else}
+                                <option {if $status.name|in_array:['Payment error', 'Ошибка оплаты']} selected {/if} value="{$status.id_order_state}">{$status.name}</option>
+                            {/if}
+                        {/foreach}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-lg-4">
+                    Статус доставленных заказов
+                </label>
+                <div class="col-lg-8">
+                    <select name="FACTORING004_DELIVERY_ORDER_STATUS" id="FACTORING004_DELIVERY_ORDER_STATUS">
+                        {foreach from=$statuses item=status}
+                            {if $configuration_value.factoring004_delivery_order_status}
+                                <option {if $status.id_order_state == $configuration_value.factoring004_delivery_order_status} selected {/if} value="{$status.id_order_state}">{$status.name}</option>
+                            {else}
+                                <option {if $status.name|in_array:['Delivered', 'Доставлено']} selected {/if} value="{$status.id_order_state}">{$status.name}</option>
+                            {/if}
+                        {/foreach}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-lg-4">
+                    Статус возвращенных заказов
+                </label>
+                <div class="col-lg-8">
+                    <select name="FACTORING004_RETURN_ORDER_STATUS" id="FACTORING004_RETURN_ORDER_STATUS">
+                        {foreach from=$statuses item=status}
+                            {if $configuration_value.factoring004_return_order_status}
+                                <option {if $status.id_order_state == $configuration_value.factoring004_return_order_status} selected {/if} value="{$status.id_order_state}">{$status.name}</option>
+                            {else}
+                                <option {if $status.name|in_array:['Refunded', 'Возмещено']} selected {/if} value="{$status.id_order_state}">{$status.name}</option>
+                            {/if}
+                        {/foreach}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-lg-4">
+                    Статус отменных заказов
+                </label>
+                <div class="col-lg-8">
+                    <select name="FACTORING004_CANCEL_ORDER_STATUS" id="FACTORING004_CANCEL_ORDER_STATUS">
+                        {foreach from=$statuses item=status}
+                            {if $configuration_value.factoring004_cancel_order_status}
+                                <option {if $status.id_order_state == $configuration_value.factoring004_cancel_order_status} selected {/if} value="{$status.id_order_state}">{$status.name}</option>
+                            {else}
+                                <option {if $status.name|in_array:['Canceled', 'Отменено']} selected {/if} value="{$status.id_order_state}">{$status.name}</option>
+                            {/if}
+                        {/foreach}
+                    </select>
+                </div>
+            </div>
             <div class="panel-footer">
                 <button id="factoring004_submit" name="btnSubmit" type="submit" class="btn btn-default pull-right">
                     Сохранить

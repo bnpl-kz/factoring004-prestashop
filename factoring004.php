@@ -83,12 +83,18 @@ class Factoring004 extends PaymentModuleCore
             ConfigurationCore::updateValue('FACTORING004_PARTNER_WEBSITE', ToolsCore::getValue('FACTORING004_PARTNER_WEBSITE'));
             ConfigurationCore::updateValue('FACTORING004_DELIVERY_METHODS',  implode(',',ToolsCore::getValue('FACTORING004_DELIVERY_METHODS') ?: []));
             ConfigurationCore::updateValue('FACTORING004_OFFER_FILE_NAME', ToolsCore::getValue('FACTORING004_OFFER_FILE_NAME'));
+            ConfigurationCore::updateValue('FACTORING004_PAID_ORDER_STATUS', ToolsCore::getValue('FACTORING004_PAID_ORDER_STATUS'));
+            ConfigurationCore::updateValue('FACTORING004_DECLINED_ORDER_STATUS', ToolsCore::getValue('FACTORING004_DECLINED_ORDER_STATUS'));
+            ConfigurationCore::updateValue('FACTORING004_DELIVERY_ORDER_STATUS', ToolsCore::getValue('FACTORING004_DELIVERY_ORDER_STATUS'));
+            ConfigurationCore::updateValue('FACTORING004_RETURN_ORDER_STATUS', ToolsCore::getValue('FACTORING004_RETURN_ORDER_STATUS'));
+            ConfigurationCore::updateValue('FACTORING004_CANCEL_ORDER_STATUS', ToolsCore::getValue('FACTORING004_CANCEL_ORDER_STATUS'));
             ToolsCore::redirect($_SERVER['HTTP_REFERER']);
         }
 
         $formAction = $this->context->link->getAdminLink('AdminModules') .
             '&configure=' . $this->name . '&tab_module=' . $this->tab . '&module_name=' . $this->name;
         $this->smarty->assign([
+            'statuses' => OrderStateCore::getOrderStates($this->context->language->id),
             'file_upload' => $this->generateControllerURI('file_upload'),
             'file_destroy' => $this->generateControllerURI('file_destroy'),
             'configuration_value' => $this->getConfigurationValues(),
@@ -160,6 +166,11 @@ class Factoring004 extends PaymentModuleCore
             'factoring004_partner_website' => ToolsCore::getValue('FACTORING004_PARTNER_WEBSITE', ConfigurationCore::get('FACTORING004_PARTNER_WEBSITE')),
             'factoring004_delivery_methods' => ToolsCore::getValue('FACTORING004_DELIVERY_METHODS', explode(',',ConfigurationCore::get('FACTORING004_DELIVERY_METHODS') ?: '')),
             'factoring004_offer_file' => ToolsCore::getValue('FACTORING004_OFFER_FILE_NAME', ConfigurationCore::get('FACTORING004_OFFER_FILE_NAME')),
+            'factoring004_paid_order_status' => ToolsCore::getValue('FACTORING004_PAID_ORDER_STATUS', ConfigurationCore::get('FACTORING004_PAID_ORDER_STATUS')),
+            'factoring004_declined_order_status' => ToolsCore::getValue('FACTORING004_DECLINED_ORDER_STATUS', ConfigurationCore::get('FACTORING004_DECLINED_ORDER_STATUS')),
+            'factoring004_delivery_order_status' => ToolsCore::getValue('FACTORING004_DELIVERY_ORDER_STATUS', ConfigurationCore::get('FACTORING004_DELIVERY_ORDER_STATUS')),
+            'factoring004_return_order_status' => ToolsCore::getValue('FACTORING004_RETURN_ORDER_STATUS', ConfigurationCore::get('FACTORING004_RETURN_ORDER_STATUS')),
+            'factoring004_cancel_order_status' => ToolsCore::getValue('FACTORING004_CANCEL_ORDER_STATUS', ConfigurationCore::get('FACTORING004_CANCEL_ORDER_STATUS')),
         ];
     }
 

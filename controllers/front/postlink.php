@@ -52,6 +52,11 @@ class Factoring004PostLinkModuleFrontController extends ModuleFrontControllerCor
             return;
         }
 
+        if ((new OrderCore($request['billNumber']))->module !== 'factoring004') {
+            $this->jsonResponse(['error' => 'Order payment is not factoring004'], JsonResponse::HTTP_BAD_REQUEST);
+            return;
+        }
+
         if ($request['status'] === static::STATUS_PREAPPROVED) {
             $this->jsonResponse(['response' => static::STATUS_PREAPPROVED]);
             return;

@@ -104,6 +104,12 @@ class OrderController extends \PrestaShopBundle\Controller\Admin\Sell\Order\Orde
         callable $previous,
         $amount = null
     ): RedirectResponse {
+        $order = new OrderCore($orderId);
+
+        if ($order->module !== 'factoring004') {
+            return $updater();
+        }
+
         foreach ($this->orderStatusHandlers as $orderStatusHandler) {
             if (!$orderStatusHandler->shouldProcess($orderStatusId)) {
                 continue;
@@ -117,7 +123,6 @@ class OrderController extends \PrestaShopBundle\Controller\Admin\Sell\Order\Orde
             }
 
             try {
-                $order = new OrderCore($orderId);
                 $shouldConfirmOtp = $orderStatusHandler->handle($order, $amount);
             } catch (PackageException $e) {
                 if ($e instanceof ErrorResponseException) {

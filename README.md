@@ -4,7 +4,7 @@
 
 * Создайте резервную копию вашего магазина и базы данных
 * Загрузите [prestashop-factoring004.zip](https://github.com/bnpl-partners/factoring004-prestashop.git?raw=true)
-* Зайдите в панель администратора Wordpress (www.yoursite.com/wp-admin/)
+* Зайдите в панель администратора Wordpress (www.yoursite.com/admin/)
 * Пройдите _Модули → Менеджер модулей_
 * Загрузите модуль через **Загрузить модуль**
 

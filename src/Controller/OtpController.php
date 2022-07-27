@@ -16,6 +16,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use TranslateCore;
 
 class OtpController extends FrameworkBundleAdminController
 {
@@ -49,15 +50,19 @@ class OtpController extends FrameworkBundleAdminController
                     'autofocus' => true,
                 ],
             ])
-            ->add('check', SubmitType::class)
+            ->add('check', SubmitType::class, [
+                'label' => $this->translate('Check'),
+            ])
             ->getForm();
 
         $form->handleRequest($request);
 
+        $title = $this->translate('Check OTP');
+
         if (!$form->isSubmitted() || !$form->isValid()){
             return $this->render('@Modules/factoring004/views/otp.html.twig', [
                 'form' => $form->createView(),
-                'layoutTitle' => 'Check OTP',
+                'layoutTitle' => $title,
             ]);
         }
 
@@ -70,7 +75,7 @@ class OtpController extends FrameworkBundleAdminController
 
             return $this->render('@Modules/factoring004/views/otp.html.twig', [
                 'form' => $form->createView(),
-                'layoutTitle' => 'Check OTP',
+                'layoutTitle' => $title,
             ]);
         }
 
@@ -95,7 +100,7 @@ class OtpController extends FrameworkBundleAdminController
 
             return $this->render('@Modules/factoring004/views/otp.html.twig', [
                 'form' => $form->createView(),
-                'layoutTitle' => 'Check OTP',
+                'layoutTitle' => $title,
             ]);
         }
     }
@@ -111,5 +116,10 @@ class OtpController extends FrameworkBundleAdminController
         ]);
 
         return $this->container->get('http_kernel')->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
+    }
+
+    private function translate(string $key): string
+    {
+        return TranslateCore::getModuleTranslation('factoring004', $key, basename(str_replace('\\', '/', self::class)));
     }
 }

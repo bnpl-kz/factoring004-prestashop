@@ -32,7 +32,7 @@
     function factoring004ValidateCheckOfferFile(form)
     {
         let offerFileInput = document.querySelector('#factoring004-offer-file');
-        if (!offerFileInput.checked) {
+        if (offerFileInput && !offerFileInput.checked) {
             alert('Вы должны согласиться с условиями Рассрочка 0-0-4')
             window.addEventListener('click', function (e) {
                     if (e.target.classList.contains('disabled')) {

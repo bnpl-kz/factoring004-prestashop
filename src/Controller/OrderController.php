@@ -78,9 +78,11 @@ class OrderController extends \PrestaShopBundle\Controller\Admin\Sell\Order\Orde
             }
         }
 
+        $order = new OrderCore($orderId);
+
         return $this->updateOrderStatusConditionally(
             $request,
-            $orderId,
+            $order,
             'partial_refund',
             function () use ($request, $orderId) {
                 return parent::partialRefundAction($orderId, $request);
@@ -90,24 +92,25 @@ class OrderController extends \PrestaShopBundle\Controller\Admin\Sell\Order\Orde
                     'orderId' => $orderId,
                 ]);
             },
-            $amount
+            (int) ceil($order->total_paid - $amount)
         );
     }
 
     /**
+     * @param int|OrderCore $orderId
      * @param callable(): RedirectResponse $updater
      * @param callable(): RedirectResponse $previous
      * @param int|float|null $amount
      */
     private function updateOrderStatusConditionally(
         Request $request,
-        int $orderId,
+        $orderId,
         string $orderStatusId,
         callable $updater,
         callable $previous,
         $amount = null
     ): RedirectResponse {
-        $order = new OrderCore($orderId);
+        $order = $orderId instanceof OrderCore ? $orderId : new OrderCore($orderId);
 
         if ($order->module !== 'factoring004') {
             return $updater();
@@ -146,11 +149,12 @@ class OrderController extends \PrestaShopBundle\Controller\Admin\Sell\Order\Orde
                 $request->getSession()->set('_factoring004_' . $orderStatusHandler->getKey() . '_forward_data', [
                     'data' => $request->request->all(),
                     'controller' => $request->attributes->get('_controller'),
+                    'amount' => $amount,
                 ]);
 
                 return $this->redirectToRoute('admin_factoring004_otp_index', [
                     'type' => $orderStatusHandler->getKey(),
-                    'order_id' => $orderId,
+                    'order_id' => $order->id,
                 ]);
             }
         }

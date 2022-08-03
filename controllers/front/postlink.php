@@ -127,7 +127,7 @@ class Factoring004PostLinkModuleFrontController extends ModuleFrontControllerCor
      */
     private function validateSignature(array $request): void
     {
-        PostLinkSignatureValidator::create('secret')->validateData($request);
+        PostLinkSignatureValidator::create(ConfigurationCore::get('FACTORING004_PARTNER_CODE'))->validateData($request);
     }
 
     /**

@@ -7,26 +7,30 @@
         </label>
     {/if}
 </form>
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/nurbekzhussip/bnpl-plugin@0.0.5/build/bnpl-plugin.css"/>
+{if $totalPrice >= 6000 && $totalPrice <= 200000}
+    <div id="factoring004"></div>
+{/if}
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/nurbekzhussip/bnpl-plugin@0.0.5/build/bnpl-plugin.bundle.js"></script>
 <script>
     let totalPrice = '{$totalPrice}';
     const minTotal = 6000;
     const maxTotal = 200000;
     let payment = document.querySelector('[data-module-name="Рассрочка 0-0-4"]');
     let label = payment.parentElement.nextElementSibling.nextElementSibling;
-    let dateSpan = document.createElement('span')
-    dateSpan.style.cssText = 'color:red;font-size: 12px;';
+    let block = document.createElement('div')
+    block.style.cssText = 'color:red;font-size: 12px;';
 
     if (totalPrice < minTotal) {
         payment.disabled = true
-        dateSpan.textContent = '(Минимальная сумма покупки в рассрочку 6000 Тенге. Не хватает ' + (minTotal - totalPrice) + ' тенге)';
-        label.appendChild(dateSpan)
+        block.textContent = '(Минимальная сумма покупки в рассрочку 6000 Тенге. Не хватает ' + (minTotal - totalPrice) + ' тенге)';
+        label.after(block)
     }
 
     if (totalPrice > maxTotal) {
         payment.disabled = true
-        dateSpan.textContent = '(Максимальная сумма покупки в рассрочку 200000 Тенге. Сумма превышает ' + (maxTotal - totalPrice) + ' тенге)';
-        label.appendChild(dateSpan)
+        block.textContent = '(Максимальная сумма покупки в рассрочку 200000 Тенге. Сумма превышает ' + (maxTotal - totalPrice) + ' тенге)';
+        label.after(block)
     }
 
     function factoring004ValidateCheckOfferFile(form)
@@ -44,5 +48,6 @@
         }
         form.submit()
     }
-
+    const t = new Factoring004.PaymentSchedule({ elemId:'factoring004', totalAmount: totalPrice });
+    t.render();
 </script>

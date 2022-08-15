@@ -84,7 +84,7 @@ class OtpController extends FrameworkBundleAdminController
         try {
             $this->otpChecker->check(
                 (string) $order->id,
-                (int) $data['amount'] ?? ceil($order->total_paid),
+                (int) ceil($data['amount'] ?? $order->total_paid),
                 $form->get('otp')->getData()
             );
 

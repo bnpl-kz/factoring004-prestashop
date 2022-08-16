@@ -118,7 +118,9 @@ class Factoring004 extends PaymentModuleCore
         $this->smarty->assign([
             'action' => $formAction,
             'totalPrice' => $totalPrice,
-            'offerFileName' => $offerFileName
+            'offerFileName' => $offerFileName,
+            'paymentScheduleCss' => _MODULE_DIR_ . 'factoring004/assets/css/factoring004-paymentschedule.css',
+            'paymentScheduleJs' => _MODULE_DIR_ . 'factoring004/assets/js/factoring004-paymentschedule.js',
         ]);
 
         $paymentForm = $this->fetch('module:factoring004/views/templates/hook/payment_options.tpl');

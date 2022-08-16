@@ -7,11 +7,11 @@
         </label>
     {/if}
 </form>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/nurbekzhussip/bnpl-plugin@0.0.5/build/bnpl-plugin.css"/>
+<link rel="stylesheet" href="{$paymentScheduleCss}"/>
 {if $totalPrice >= 6000 && $totalPrice <= 200000}
     <div id="factoring004"></div>
 {/if}
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/nurbekzhussip/bnpl-plugin@0.0.5/build/bnpl-plugin.bundle.js"></script>
+<script type="text/javascript" src="{$paymentScheduleJs}"></script>
 <script>
     let totalPrice = '{$totalPrice}';
     const minTotal = 6000;

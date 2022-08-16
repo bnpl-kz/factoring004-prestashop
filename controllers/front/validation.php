@@ -88,7 +88,7 @@ class Factoring004ValidationModuleFrontController extends ModuleFrontControllerC
                     'partnerWebsite' => (string) ConfigurationCore::get('FACTORING004_PARTNER_WEBSITE'),
                 ],
                 'billNumber' => (string) OrderCore::getIdByCartId($cart->id),
-                'billAmount' => (int) $cart->getOrderTotal(),
+                'billAmount' => (int) ceil($cart->getOrderTotal()),
                 'itemsQuantity' => (int) array_sum(array_map(function ($item) {
                     return $item['cart_quantity'];
                 },$cart->getProducts())),
@@ -98,7 +98,7 @@ class Factoring004ValidationModuleFrontController extends ModuleFrontControllerC
                         'itemName' => (string) $item['name'],
                         'itemCategory' => (string) $item['category'],
                         'itemQuantity' => (int) $item['cart_quantity'],
-                        'itemPrice' => (int) $item['price'],
+                        'itemPrice' => (int) ceil($item['price']),
                         'itemSum' => (int) ceil($item['total']),
                     ];
                 }, $cart->getProducts())),

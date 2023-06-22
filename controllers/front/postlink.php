@@ -65,11 +65,6 @@ class Factoring004PostLinkModuleFrontController extends ModuleFrontControllerCor
             $status = (int) ConfigurationCore::get('FACTORING004_PAID_ORDER_STATUS');
             $this->updateStatusHandler->handle(new UpdateOrderStatusCommand((int) $request['billNumber'], $status));
 
-            DB::getInstance()->insert('factoring004_order_preapps', [
-                'order_id' => $request['billNumber'],
-                'preapp_uid' => $request['preappId'],
-            ]);
-
             if (DB::getInstance()->execute('COMMIT')) {
                 $this->jsonResponse(['response' => static::RESPONSE_COMPLETED]);
                 return;

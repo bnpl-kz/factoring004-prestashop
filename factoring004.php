@@ -31,16 +31,6 @@ class Factoring004 extends PaymentModuleCore
 
     public function install()
     {
-        DbCore::getInstance()->execute(
-            'CREATE TABLE IF NOT EXISTS `'. _DB_PREFIX_ .'factoring004_order_preapps` (
-              `id` int(11) NOT NULL AUTO_INCREMENT,
-              `order_id` int(11) NOT NULL,
-              `preapp_uid` varchar(255) NOT NULL,
-              `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-                PRIMARY KEY(`id`),
-                UNIQUE(`order_id`,`preapp_uid`)
-            ) ENGINE=InnoDB;'
-        );
         $this->addOrderState();
         ConfigurationCore::updateValue('PS_OS_FACTORING004', DbCore::getInstance()->query(
             'SELECT * FROM `'. _DB_PREFIX_ .'order_state` WHERE `module_name` = '."'$this->name'".';'
@@ -52,9 +42,6 @@ class Factoring004 extends PaymentModuleCore
 
     public function uninstall()
     {
-        DbCore::getInstance()->execute(
-            'DROP TABLE IF EXISTS `'. _DB_PREFIX_ .'factoring004_order_preapps`;'
-        );
         $this->deleteOrderState();
         return ConfigurationCore::deleteByName('PS_OS_FACTORING004')
             && ConfigurationCore::deleteByName('FACTORING004_API_HOST')

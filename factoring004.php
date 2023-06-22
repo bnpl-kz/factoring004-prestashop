@@ -45,13 +45,11 @@ class Factoring004 extends PaymentModuleCore
         $this->deleteOrderState();
         return ConfigurationCore::deleteByName('PS_OS_FACTORING004')
             && ConfigurationCore::deleteByName('FACTORING004_API_HOST')
-            && ConfigurationCore::deleteByName('FACTORING004_PA_TOKEN')
-            && ConfigurationCore::deleteByName('FACTORING004_AS_TOKEN')
+            && ConfigurationCore::deleteByName('FACTORING004_OAUTH_LOGIN')
+            && ConfigurationCore::deleteByName('FACTORING004_OAUTH_PASSWORD')
             && ConfigurationCore::deleteByName('FACTORING004_PARTNER_NAME')
             && ConfigurationCore::deleteByName('FACTORING004_PARTNER_CODE')
             && ConfigurationCore::deleteByName('FACTORING004_POINT_CODE')
-            && ConfigurationCore::deleteByName('FACTORING004_PARTNER_EMAIL')
-            && ConfigurationCore::deleteByName('FACTORING004_PARTNER_WEBSITE')
             && ConfigurationCore::deleteByName('FACTORING004_DELIVERY_METHODS')
             && ConfigurationCore::deleteByName('FACTORING004_OFFER_FILE_NAME')
             && parent::uninstall();
@@ -61,13 +59,11 @@ class Factoring004 extends PaymentModuleCore
     {
         if (ToolsCore::isSubmit('btnSubmit')) {
             ConfigurationCore::updateValue('FACTORING004_API_HOST', ToolsCore::getValue('FACTORING004_API_HOST'));
-            ConfigurationCore::updateValue('FACTORING004_PA_TOKEN', ToolsCore::getValue('FACTORING004_PA_TOKEN'));
-            ConfigurationCore::updateValue('FACTORING004_AS_TOKEN', ToolsCore::getValue('FACTORING004_AS_TOKEN'));
+            ConfigurationCore::updateValue('FACTORING004_OAUTH_LOGIN', ToolsCore::getValue('FACTORING004_OAUTH_LOGIN'));
+            ConfigurationCore::updateValue('FACTORING004_OAUTH_PASSWORD', ToolsCore::getValue('FACTORING004_OAUTH_PASSWORD'));
             ConfigurationCore::updateValue('FACTORING004_PARTNER_NAME', ToolsCore::getValue('FACTORING004_PARTNER_NAME'));
             ConfigurationCore::updateValue('FACTORING004_PARTNER_CODE', ToolsCore::getValue('FACTORING004_PARTNER_CODE'));
             ConfigurationCore::updateValue('FACTORING004_POINT_CODE', ToolsCore::getValue('FACTORING004_POINT_CODE'));
-            ConfigurationCore::updateValue('FACTORING004_PARTNER_EMAIL', ToolsCore::getValue('FACTORING004_PARTNER_EMAIL'));
-            ConfigurationCore::updateValue('FACTORING004_PARTNER_WEBSITE', ToolsCore::getValue('FACTORING004_PARTNER_WEBSITE'));
             ConfigurationCore::updateValue('FACTORING004_DELIVERY_METHODS',  implode(',',ToolsCore::getValue('FACTORING004_DELIVERY_METHODS') ?: []));
             ConfigurationCore::updateValue('FACTORING004_OFFER_FILE_NAME', ToolsCore::getValue('FACTORING004_OFFER_FILE_NAME'));
             ConfigurationCore::updateValue('FACTORING004_PAID_ORDER_STATUS', ToolsCore::getValue('FACTORING004_PAID_ORDER_STATUS'));
@@ -146,13 +142,11 @@ class Factoring004 extends PaymentModuleCore
     {
         return [
             'factoring004_api_host' => ToolsCore::getValue('FACTORING004_API_HOST', ConfigurationCore::get('FACTORING004_API_HOST')),
-            'factoring004_pa_token' => ToolsCore::getValue('FACTORING004_PA_TOKEN', ConfigurationCore::get('FACTORING004_PA_TOKEN')),
-            'factoring004_as_token' => ToolsCore::getValue('FACTORING004_AS_TOKEN', ConfigurationCore::get('FACTORING004_AS_TOKEN')),
+            'factoring004_oauth_login' => ToolsCore::getValue('FACTORING004_OAUTH_LOGIN', ConfigurationCore::get('FACTORING004_OAUTH_LOGIN')),
+            'factoring004_oauth_password' => ToolsCore::getValue('FACTORING004_OAUTH_PASSWORD', ConfigurationCore::get('FACTORING004_OAUTH_PASSWORD')),
             'factoring004_partner_name' => ToolsCore::getValue('FACTORING004_PARTNER_NAME', ConfigurationCore::get('FACTORING004_PARTNER_NAME')),
             'factoring004_partner_code' => ToolsCore::getValue('FACTORING004_PARTNER_CODE', ConfigurationCore::get('FACTORING004_PARTNER_CODE')),
             'factoring004_point_code' => ToolsCore::getValue('FACTORING004_POINT_CODE', ConfigurationCore::get('FACTORING004_POINT_CODE')),
-            'factoring004_partner_email' => ToolsCore::getValue('FACTORING004_PARTNER_EMAIL', ConfigurationCore::get('FACTORING004_PARTNER_EMAIL')),
-            'factoring004_partner_website' => ToolsCore::getValue('FACTORING004_PARTNER_WEBSITE', ConfigurationCore::get('FACTORING004_PARTNER_WEBSITE')),
             'factoring004_delivery_methods' => ToolsCore::getValue('FACTORING004_DELIVERY_METHODS', explode(',',ConfigurationCore::get('FACTORING004_DELIVERY_METHODS') ?: '')),
             'factoring004_offer_file' => ToolsCore::getValue('FACTORING004_OFFER_FILE_NAME', ConfigurationCore::get('FACTORING004_OFFER_FILE_NAME')),
             'factoring004_paid_order_status' => ToolsCore::getValue('FACTORING004_PAID_ORDER_STATUS', ConfigurationCore::get('FACTORING004_PAID_ORDER_STATUS')),

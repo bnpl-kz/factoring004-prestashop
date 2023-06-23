@@ -11,6 +11,7 @@ use BnplPartners\Factoring004\ChangeStatus\MerchantsOrders;
 use BnplPartners\Factoring004\Exception\ErrorResponseException;
 use BnplPartners\Factoring004\Response\ErrorResponse;
 use BnplPartners\Factoring004\Transport\TransportInterface;
+use BnplPartners\Factoring004Prestashop\Helper\AuthTokenManager;
 use ConfigurationCore;
 use OrderCore;
 
@@ -72,9 +73,14 @@ abstract class AbstractOrderStatusHandler implements OrderStatusHandlerInterface
     {
         return Api::create(
             ConfigurationCore::get('FACTORING004_API_HOST') ?: 'http://localhost',
-            new BearerTokenAuth(ConfigurationCore::get('FACTORING004_AS_TOKEN') ?: ''),
+            new BearerTokenAuth($this->getAuthToken()),
             $this->transport
         );
+    }
+
+    protected function getAuthToken(): string
+    {
+        return AuthTokenManager::init($this->transport)->getToken();
     }
 
     protected function getMerchantId(): string

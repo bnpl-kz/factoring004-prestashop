@@ -5,6 +5,7 @@ declare(strict_types=1);
 use BnplPartners\Factoring004\Api;
 use BnplPartners\Factoring004\Auth\BearerTokenAuth;
 use BnplPartners\Factoring004\PreApp\PreAppMessage;
+use BnplPartners\Factoring004Prestashop\Helper\AuthTokenManager;
 
 require_once _PS_ROOT_DIR_  . '/modules/factoring004/vendor/autoload.php' ;
 
@@ -72,7 +73,7 @@ class Factoring004ValidationModuleFrontController extends ModuleFrontControllerC
         $transport->setLogger(new \PrestaShop\PrestaShop\Adapter\LegacyLogger());
         $api = Api::create(
             ConfigurationCore::get('FACTORING004_API_HOST'),
-            new BearerTokenAuth(ConfigurationCore::get('FACTORING004_PA_TOKEN')),
+            new BearerTokenAuth(AuthTokenManager::init($transport)->getToken()),
             $transport
         );
 

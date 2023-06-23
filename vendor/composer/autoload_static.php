@@ -28,7 +28,6 @@ class ComposerStaticInit36a7a15d335915fb3c9feb7056bffd81
             'Psr\\SimpleCache\\' => 16,
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
-            'Psr\\Http\\Client\\' => 16,
         ),
         'N' => 
         array (
@@ -80,10 +79,6 @@ class ComposerStaticInit36a7a15d335915fb3c9feb7056bffd81
         array (
             0 => __DIR__ . '/..' . '/psr/http-factory/src',
             1 => __DIR__ . '/..' . '/psr/http-message/src',
-        ),
-        'Psr\\Http\\Client\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/psr/http-client/src',
         ),
         'Nyholm\\Psr7\\' => 
         array (
@@ -141,9 +136,12 @@ class ComposerStaticInit36a7a15d335915fb3c9feb7056bffd81
         'BnplPartners\\Factoring004Prestashop\\Handler\\FullRefundHandler' => __DIR__ . '/../..' . '/src/Handler/FullRefundHandler.php',
         'BnplPartners\\Factoring004Prestashop\\Handler\\OrderStatusHandlerInterface' => __DIR__ . '/../..' . '/src/Handler/OrderStatusHandlerInterface.php',
         'BnplPartners\\Factoring004Prestashop\\Handler\\PartialRefundHandler' => __DIR__ . '/../..' . '/src/Handler/PartialRefundHandler.php',
+        'BnplPartners\\Factoring004Prestashop\\Helper\\AuthTokenManager' => __DIR__ . '/../..' . '/src/Helper/AuthTokenManager.php',
+        'BnplPartners\\Factoring004Prestashop\\Helper\\CacheAdapter' => __DIR__ . '/../..' . '/src/Helper/CacheAdapter.php',
         'BnplPartners\\Factoring004Prestashop\\Otp\\DeliveryOtpChecker' => __DIR__ . '/../..' . '/src/Otp/DeliveryOtpChecker.php',
         'BnplPartners\\Factoring004Prestashop\\Otp\\OtpCheckerInterface' => __DIR__ . '/../..' . '/src/Otp/OtpCheckerInterface.php',
         'BnplPartners\\Factoring004Prestashop\\Otp\\RefundOtpChecker' => __DIR__ . '/../..' . '/src/Otp/RefundOtpChecker.php',
+        'BnplPartners\\Factoring004\\AbstractEnum' => __DIR__ . '/..' . '/bnpl-partners/factoring004/src/AbstractEnum.php',
         'BnplPartners\\Factoring004\\AbstractResource' => __DIR__ . '/..' . '/bnpl-partners/factoring004/src/AbstractResource.php',
         'BnplPartners\\Factoring004\\Api' => __DIR__ . '/..' . '/bnpl-partners/factoring004/src/Api.php',
         'BnplPartners\\Factoring004\\ArrayInterface' => __DIR__ . '/..' . '/bnpl-partners/factoring004/src/ArrayInterface.php',
@@ -180,6 +178,15 @@ class ComposerStaticInit36a7a15d335915fb3c9feb7056bffd81
         'BnplPartners\\Factoring004\\OAuth\\OAuthToken' => __DIR__ . '/..' . '/bnpl-partners/factoring004/src/OAuth/OAuthToken.php',
         'BnplPartners\\Factoring004\\OAuth\\OAuthTokenManager' => __DIR__ . '/..' . '/bnpl-partners/factoring004/src/OAuth/OAuthTokenManager.php',
         'BnplPartners\\Factoring004\\OAuth\\OAuthTokenManagerInterface' => __DIR__ . '/..' . '/bnpl-partners/factoring004/src/OAuth/OAuthTokenManagerInterface.php',
+        'BnplPartners\\Factoring004\\OAuth\\OAuthTokenRefreshPolicy' => __DIR__ . '/..' . '/bnpl-partners/factoring004/src/OAuth/OAuthTokenRefreshPolicy.php',
+        'BnplPartners\\Factoring004\\Order\\AbstractStatusConfirmation' => __DIR__ . '/..' . '/bnpl-partners/factoring004/src/Order/AbstractStatusConfirmation.php',
+        'BnplPartners\\Factoring004\\Order\\ChangeStatusCaller' => __DIR__ . '/..' . '/bnpl-partners/factoring004/src/Order/ChangeStatusCaller.php',
+        'BnplPartners\\Factoring004\\Order\\Delivery' => __DIR__ . '/..' . '/bnpl-partners/factoring004/src/Order/Delivery.php',
+        'BnplPartners\\Factoring004\\Order\\FullRefund' => __DIR__ . '/..' . '/bnpl-partners/factoring004/src/Order/FullRefund.php',
+        'BnplPartners\\Factoring004\\Order\\OrderManager' => __DIR__ . '/..' . '/bnpl-partners/factoring004/src/Order/OrderManager.php',
+        'BnplPartners\\Factoring004\\Order\\PartialRefund' => __DIR__ . '/..' . '/bnpl-partners/factoring004/src/Order/PartialRefund.php',
+        'BnplPartners\\Factoring004\\Order\\StatusConfirmationInterface' => __DIR__ . '/..' . '/bnpl-partners/factoring004/src/Order/StatusConfirmationInterface.php',
+        'BnplPartners\\Factoring004\\Order\\StatusConfirmationResponse' => __DIR__ . '/..' . '/bnpl-partners/factoring004/src/Order/StatusConfirmationResponse.php',
         'BnplPartners\\Factoring004\\Otp\\CheckOtp' => __DIR__ . '/..' . '/bnpl-partners/factoring004/src/Otp/CheckOtp.php',
         'BnplPartners\\Factoring004\\Otp\\CheckOtpReturn' => __DIR__ . '/..' . '/bnpl-partners/factoring004/src/Otp/CheckOtpReturn.php',
         'BnplPartners\\Factoring004\\Otp\\DtoOtp' => __DIR__ . '/..' . '/bnpl-partners/factoring004/src/Otp/DtoOtp.php',
@@ -304,10 +311,6 @@ class ComposerStaticInit36a7a15d335915fb3c9feb7056bffd81
         'Nyholm\\Psr7\\Stream' => __DIR__ . '/..' . '/nyholm/psr7/src/Stream.php',
         'Nyholm\\Psr7\\UploadedFile' => __DIR__ . '/..' . '/nyholm/psr7/src/UploadedFile.php',
         'Nyholm\\Psr7\\Uri' => __DIR__ . '/..' . '/nyholm/psr7/src/Uri.php',
-        'Psr\\Http\\Client\\ClientExceptionInterface' => __DIR__ . '/..' . '/psr/http-client/src/ClientExceptionInterface.php',
-        'Psr\\Http\\Client\\ClientInterface' => __DIR__ . '/..' . '/psr/http-client/src/ClientInterface.php',
-        'Psr\\Http\\Client\\NetworkExceptionInterface' => __DIR__ . '/..' . '/psr/http-client/src/NetworkExceptionInterface.php',
-        'Psr\\Http\\Client\\RequestExceptionInterface' => __DIR__ . '/..' . '/psr/http-client/src/RequestExceptionInterface.php',
         'Psr\\Http\\Message\\MessageInterface' => __DIR__ . '/..' . '/psr/http-message/src/MessageInterface.php',
         'Psr\\Http\\Message\\RequestFactoryInterface' => __DIR__ . '/..' . '/psr/http-factory/src/RequestFactoryInterface.php',
         'Psr\\Http\\Message\\RequestInterface' => __DIR__ . '/..' . '/psr/http-message/src/RequestInterface.php',

@@ -51,6 +51,17 @@
             </div>
             <div class="form-group">
                 <label class="control-label col-lg-4">
+                    Вид интерфейса клиентского пути
+                </label>
+                <div class="col-lg-8">
+                    <select name="FACTORING004_CLIENT_ROUTE" id="FACTORING004_CLIENT_ROUTE">
+                        <option {if $configuration_value.factoring004_client_route == 'REDIRECT'} selected {/if} value="REDIRECT">Перенаправление</option>
+                        <option {if $configuration_value.factoring004_client_route == 'MODAL'} selected {/if} value="MODAL">Модальное окно</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-lg-4">
                     Способы доставки
                 </label>
                 {foreach from=$delivery_methods item=delivery}

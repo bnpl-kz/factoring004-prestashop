@@ -1,5 +1,5 @@
 <form onsubmit="return factoring004ValidateCheckOfferFile(this)" method="post" action="{$action}">
-    <P>Купи сейчас, плати потом! Быстрое и удобное оформление рассрочки на 4 месяца без первоначальной оплаты. Моментальное подтверждение, без комиссий и процентов. Для заказов суммой от 6000 до 200000 тг.</P>
+    <P>Купи сейчас, плати потом! Быстрое и удобное оформление рассрочки на 4 месяца. Моментальное одобрение, без комиссий и процентов. Для заказов суммой от 6 000 до 200 000 тг.</P>
     {if $offerFileName}
         <label for="factoring004-offer-file">
             <input class="factoring004-offer-file" type="checkbox" id="factoring004-offer-file">

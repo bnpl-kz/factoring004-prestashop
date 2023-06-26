@@ -51,14 +51,26 @@ class Factoring004ValidationModuleFrontController extends ModuleFrontControllerC
             $customer->secure_key
         );
 
+        $clientRoute = ConfigurationCore::get('FACTORING004_CLIENT_ROUTE');
+
         try {
-            ToolsCore::redirect($this->preapp($cart));
+            if ($clientRoute == 'MODAL') {
+                die(
+                    ToolsCore::jsonEncode(['redirectLink' => $this->preapp($cart)])
+                );
+            } else {
+                ToolsCore::redirect($this->preapp($cart));
+            }
         } catch (Exception $e) {
             PrestaShopLoggerCore::addLog($e->getMessage());
-            $this->context->smarty->assign([
-                'errorPageCss' => _MODULE_DIR_ . 'factoring004/assets/css/factoring004-errorpage.css',
-            ]);
-            $this->setTemplate('module:factoring004/views/templates/factoring004-errorpage.tpl');
+            $errorPageUrl = $this->context->link->getModuleLink('factoring004', 'error', array(), true);
+            if ($clientRoute == 'MODAL') {
+                die(
+                    ToolsCore::jsonEncode(['redirectErrorPage' => $errorPageUrl])
+                );
+            } else {
+                ToolsCore::redirect($errorPageUrl);
+            }
         }
     }
 

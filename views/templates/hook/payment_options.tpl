@@ -12,6 +12,10 @@
     <div id="factoring004"></div>
 {/if}
 <script type="text/javascript" src="{$paymentScheduleJs}"></script>
+{if $clientRoute == 'MODAL'}
+    <script src="{$paymentWidgetJs}" type="text/javascript"></script>
+    <div id='modal-bnplpayment'></div>
+{/if}
 <script>
     let totalPrice = '{$totalPrice}';
     const minTotal = 6000;
@@ -46,7 +50,39 @@
             )
             return false;
         }
+        {if $clientRoute == 'MODAL'}
+        fetch(form.action,{
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: new FormData(form),
+        })
+            .then(response => response.json())
+            .then((result) => {
+                if (result.redirectErrorPage) {
+                    return window.location.replace(result.redirectErrorPage)
+                }
+                const bnplKzApi = new BnplKzApi.CPO(
+                    {
+                        rootId: 'modal-bnplpayment',
+                        callbacks: {
+                            onError: () => window.location.replace(result.redirectLink),
+                            onDeclined: () => window.location.replace('/'),
+                            onEnd: () => window.location.replace('/')
+                        }
+                    });
+                bnplKzApi.render({
+                    redirectLink: result.redirectLink
+                });
+            })
+            .catch((err) => {
+                window.location.href = window.location.replace('/');
+            })
+        return false;
+        {else}
         form.submit()
+        {/if}
     }
     const t = new Factoring004.PaymentSchedule({ elemId:'factoring004', totalAmount: totalPrice });
     t.render();

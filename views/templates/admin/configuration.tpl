@@ -22,7 +22,7 @@
                     OAuth Password
                 </label>
                 <div class="col-lg-8">
-                    <input type="text" name="FACTORING004_OAUTH_PASSWORD" id="FACTORING004_OAUTH_PASSWORD" class="" required="required" value="{$configuration_value.factoring004_oauth_password}" >
+                    <input type="password" name="FACTORING004_OAUTH_PASSWORD" id="FACTORING004_OAUTH_PASSWORD" class="" required="required" value="{$configuration_value.factoring004_oauth_password}" >
                 </div>
             </div>
             <div class="form-group">

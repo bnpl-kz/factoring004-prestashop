@@ -3,7 +3,7 @@
         'name' => 'bnpl-partners/factoring004-prestashop',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '674b1913c8efa55f7d5a961f64e289c2cfc97cb5',
+        'reference' => '1170234145273c661652ad0fdf2675d00b16e82e',
         'type' => 'prestashop-module',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -22,7 +22,7 @@
         'bnpl-partners/factoring004-prestashop' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '674b1913c8efa55f7d5a961f64e289c2cfc97cb5',
+            'reference' => '1170234145273c661652ad0fdf2675d00b16e82e',
             'type' => 'prestashop-module',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -87,6 +87,15 @@
             'provided' => array(
                 0 => '1.0',
             ),
+        ),
+        'psr/http-client' => array(
+            'pretty_version' => '1.0.2',
+            'version' => '1.0.2.0',
+            'reference' => '0955afe48220520692d2d09f7ab7e0f93ffd6a31',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../psr/http-client',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'psr/http-factory' => array(
             'pretty_version' => '1.0.2',

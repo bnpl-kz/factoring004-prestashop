@@ -5,6 +5,7 @@
         "php": ">=7.1",
         "bnpl-partners/factoring004": "^2.0 || ^3.0",
         "nyholm/psr7": "^1.5",
+        "psr/http-client": "^1.0",
         "wa72/simplelogger": "^1.1"
     },
     "license": "MIT",

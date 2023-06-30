@@ -12,6 +12,7 @@ use BnplPartners\Factoring004\ChangeStatus\MerchantsOrders;
 use BnplPartners\Factoring004\Exception\ErrorResponseException;
 use BnplPartners\Factoring004\Response\ErrorResponse;
 use BnplPartners\Factoring004\Transport\TransportInterface;
+use BnplPartners\Factoring004Prestashop\Helper\AuthTokenManager;
 use ConfigurationCore;
 use OrderCore;
 
@@ -64,7 +65,7 @@ class CancelHandler implements OrderStatusHandlerInterface
     {
         return Api::create(
             ConfigurationCore::get('FACTORING004_API_HOST') ?: 'http://localhost',
-            new BearerTokenAuth(ConfigurationCore::get('FACTORING004_AS_TOKEN') ?: ''),
+            new BearerTokenAuth(AuthTokenManager::init($this->transport)->getToken()),
             $this->transport
         );
     }

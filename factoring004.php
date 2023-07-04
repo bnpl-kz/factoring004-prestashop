@@ -87,18 +87,12 @@ class Factoring004 extends PaymentModuleCore
         }
 
         $formAction = $this->context->link->getModuleLink($this->name, 'validation', array(), true);
-        $totalPrice = $this->context->cart->getOrderTotal();
-        $offerFileName = ConfigurationCore::get('FACTORING004_OFFER_FILE_NAME');
         $apiHost = Configuration::get('FACTORING004_API_HOST');
 
         $widgetDomain = strpos($apiHost, 'dev') === false ? 'bnpl.kz' : 'dev.bnpl.kz';
 
         $this->smarty->assign([
             'action' => $formAction,
-            'totalPrice' => $totalPrice,
-            'offerFileName' => $offerFileName,
-            'paymentScheduleCss' => _MODULE_DIR_ . 'factoring004/assets/css/factoring004-paymentschedule.css',
-            'paymentScheduleJs' => _MODULE_DIR_ . 'factoring004/assets/js/factoring004-paymentschedule.js',
             'clientRoute' => Configuration::get('FACTORING004_CLIENT_ROUTE'),
             'paymentWidgetJs' => 'https://' . $widgetDomain . '/widget/index_bundle.js'
         ]);

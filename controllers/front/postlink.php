@@ -60,34 +60,37 @@ class Factoring004PostLinkModuleFrontController extends ModuleFrontControllerCor
         }
 
         if ($request['status'] === static::STATUS_COMPLETED) {
-            DB::getInstance()->execute('BEGIN');
 
             $status = (int) ConfigurationCore::get('FACTORING004_PAID_ORDER_STATUS');
-            $this->updateStatusHandler->handle(new UpdateOrderStatusCommand((int) $request['billNumber'], $status));
+            $this->setFactoring004OrderStatus($request['billNumber'], $status);
 
-            DB::getInstance()->insert('factoring004_order_preapps', [
-                'order_id' => $request['billNumber'],
-                'preapp_uid' => $request['preappId'],
-            ]);
-
-            if (DB::getInstance()->execute('COMMIT')) {
-                $this->jsonResponse(['response' => static::RESPONSE_COMPLETED]);
-                return;
-            }
-
-            $this->jsonResponse(['error' => 'Unable to update order status'], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+            $this->jsonResponse(['response' => static::RESPONSE_COMPLETED]);
             return;
         }
 
         if ($request['status'] === static::STATUS_DECLINED) {
             $status = (int) ConfigurationCore::get('FACTORING004_DECLINED_ORDER_STATUS');
-            $this->updateStatusHandler->handle(new UpdateOrderStatusCommand((int) $request['billNumber'], $status));
+
+            $this->setFactoring004OrderStatus($request['billNumber'], $status);
 
             $this->jsonResponse(['response' => static::STATUS_DECLINED]);
             return;
         }
 
         $this->jsonResponse(['error' => 'Unsupported status given'], JsonResponse::HTTP_BAD_REQUEST);
+    }
+
+    private function setFactoring004OrderStatus($orderId, $statusId)
+    {
+        try {
+            $history = new OrderHistory();
+            $history->id_order = $orderId;
+            $history->changeIdOrderState($statusId, (int) $orderId);
+            $history->addWithemail();
+            $history->save();
+        } catch (Exception $e) {
+            $this->logger->debug('Factoring004 Order status update error: ' . $e->getMessage());
+        }
     }
 
     /**

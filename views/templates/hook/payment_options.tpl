@@ -1,5 +1,5 @@
 <form onsubmit="return factoring004ValidateCheckOfferFile(this)" method="post" action="{$action}">
-    <P>Купи сейчас, плати потом! Быстрое и удобное оформление рассрочки на 4 месяца без первоначальной оплаты. Моментальное подтверждение, без комиссий и процентов. Для заказов суммой от 6000 до 200000 тг.</P>
+    <P>Купи сейчас, плати потом! Быстрое и удобное оформление рассрочки на 4 месяца. Моментальное одобрение, без комиссий и процентов. Для заказов суммой от 6 000 до 200 000 тг.</P>
     {if $offerFileName}
         <label for="factoring004-offer-file">
             <input class="factoring004-offer-file" type="checkbox" id="factoring004-offer-file">
@@ -12,6 +12,10 @@
     <div id="factoring004"></div>
 {/if}
 <script type="text/javascript" src="{$paymentScheduleJs}"></script>
+{if $clientRoute == 'MODAL'}
+    <script src="{$paymentWidgetJs}" type="text/javascript"></script>
+    <div id='modal-bnplpayment'></div>
+{/if}
 <script>
     let totalPrice = '{$totalPrice}';
     const minTotal = 6000;
@@ -46,7 +50,39 @@
             )
             return false;
         }
+        {if $clientRoute == 'MODAL'}
+        fetch(form.action,{
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: new FormData(form),
+        })
+            .then(response => response.json())
+            .then((result) => {
+                if (result.redirectErrorPage) {
+                    return window.location.replace(result.redirectErrorPage)
+                }
+                const bnplKzApi = new BnplKzApi.CPO(
+                    {
+                        rootId: 'modal-bnplpayment',
+                        callbacks: {
+                            onError: () => window.location.replace(result.redirectLink),
+                            onDeclined: () => window.location.replace('/'),
+                            onEnd: () => window.location.replace('/')
+                        }
+                    });
+                bnplKzApi.render({
+                    redirectLink: result.redirectLink
+                });
+            })
+            .catch((err) => {
+                window.location.href = window.location.replace('/');
+            })
+        return false;
+        {else}
         form.submit()
+        {/if}
     }
     const t = new Factoring004.PaymentSchedule({ elemId:'factoring004', totalAmount: totalPrice });
     t.render();

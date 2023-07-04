@@ -11,18 +11,18 @@
             </div>
             <div class="form-group">
                 <label class="control-label col-lg-4 required">
-                    OAuth Token bnpl-partners
+                    OAuth Login
                 </label>
                 <div class="col-lg-8">
-                    <textarea name="FACTORING004_PA_TOKEN" id="FACTORING004_PA_TOKEN" class="textarea-autosize" style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 52.275px;">{$configuration_value.factoring004_pa_token}</textarea>
+                    <input type="text" name="FACTORING004_OAUTH_LOGIN" id="FACTORING004_OAUTH_LOGIN" class="" required="required" value="{$configuration_value.factoring004_oauth_login}" >
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-lg-4 required">
-                    OAuth Token AccountingService
+                    OAuth Password
                 </label>
                 <div class="col-lg-8">
-                    <textarea name="FACTORING004_AS_TOKEN" id="FACTORING004_AS_TOKEN" class="textarea-autosize" style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 52.275px;">{$configuration_value.factoring004_as_token}</textarea>
+                    <input type="password" name="FACTORING004_OAUTH_PASSWORD" id="FACTORING004_OAUTH_PASSWORD" class="" required="required" value="{$configuration_value.factoring004_oauth_password}" >
                 </div>
             </div>
             <div class="form-group">
@@ -51,18 +51,13 @@
             </div>
             <div class="form-group">
                 <label class="control-label col-lg-4">
-                    Partner Email
+                    Вид интерфейса клиентского пути
                 </label>
                 <div class="col-lg-8">
-                    <input type="text" name="FACTORING004_PARTNER_EMAIL" id="FACTORING004_PARTNER_EMAIL" value="{$configuration_value.factoring004_partner_email}" class="">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-lg-4">
-                    Partner Website
-                </label>
-                <div class="col-lg-8">
-                    <input type="text" name="FACTORING004_PARTNER_WEBSITE" id="FACTORING004_PARTNER_WEBSITE" value="{$configuration_value.factoring004_partner_website}" class="">
+                    <select name="FACTORING004_CLIENT_ROUTE" id="FACTORING004_CLIENT_ROUTE">
+                        <option {if $configuration_value.factoring004_client_route == 'REDIRECT'} selected {/if} value="REDIRECT">Перенаправление</option>
+                        <option {if $configuration_value.factoring004_client_route == 'MODAL'} selected {/if} value="MODAL">Модальное окно</option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">
